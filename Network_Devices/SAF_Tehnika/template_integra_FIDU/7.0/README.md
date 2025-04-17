@@ -1,12 +1,12 @@
-# Integra-X radio
+# Integra-G radio
 
 ## Overview
 
-SAF templates for Integra-X and Integra-X2 radio.
+Official Zabbix templates for Integra-FIDU radio.
 
+ 
 If you have any questions, please contact techsupport@saftehnika.com.
 
 ## Author
 
 SAF Tehnika
-saftehnika.com

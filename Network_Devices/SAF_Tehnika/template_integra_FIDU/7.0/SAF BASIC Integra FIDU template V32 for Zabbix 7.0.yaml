@@ -6,9 +6,9 @@ zabbix_export:
     - uuid: e2342a5fe1c0462fa3e76a9dff8cb85e
       name: 'SAF equipment'
   templates:
-    - uuid: 4c795cd82ef14b37bd6144a99e97f71d
-      template: 'SAF BASIC Integra-X template V31 for Zabbix 7.0'
-      name: 'SAF BASIC Integra-X template V31 for Zabbix 7.0'
+    - uuid: cbb78f1e2ad84d3aafbdb86a9a7c1953
+      template: 'SAF BASIC Integra-X template V32 for Zabbix 7.0'
+      name: 'SAF BASIC Integra-X template V32 for Zabbix 7.0'
       description: |
         Contacts: saftehnika.com,  techsupport@saftehnika.com.
         Template for SAF radio Integra-X.
@@ -16,30 +16,30 @@ zabbix_export:
         - name: Integra-X
         - name: 'SAF equipment'
       items:
-        - uuid: 78e330947cce457ebb2be0d77f7d7228
+        - uuid: 1d49b7daa73c4e70b0cf6b22b3ea4d49
           name: 'CPU load'
           type: CALCULATED
-          key: CPU_load_Integra_X
+          key: integraX.CPU_load_Integra_X
           history: 90d
           value_type: FLOAT
           trends: 30d
           units: '%'
-          params: 100-last(//integraXsysCPUidle)
+          params: 100-last(//integraX.sysCPUidle)
           tags:
             - tag: Component
               value: '7 Status'
           triggers:
-            - uuid: 0fe9406063e0457b91a6c638cfc71b06
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/CPU_load_Integra_X)>80'
+            - uuid: 035e4cb06bfa4a9382113dc4113156ae
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.CPU_load_Integra_X)>80'
               recovery_mode: RECOVERY_EXPRESSION
-              recovery_expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/CPU_load_Integra_X)<75'
+              recovery_expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.CPU_load_Integra_X)<75'
               name: 'CPU load {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: ef122899bec648d18fe0ca058d98b18a
+        - uuid: a94a7aeeca0747e384b9ec3ec66da323
           name: 'FW version'
           type: DEPENDENT
-          key: Firmware_version_raw
+          key: integraX.Firmware_version_raw
           delay: '0'
           history: 90d
           value_type: TEXT
@@ -51,22 +51,22 @@ zabbix_export:
                 - 'Vers: ([^ ]*);'
                 - \1
           master_item:
-            key: sysDescr.IntE3
+            key: integraX.sysDescr.IntE3
           tags:
             - tag: Component
               value: '1 Overall Parameters'
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: 250e1f535f5e49c6b8e97399d99fa0fd
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/Firmware_version_raw,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/Firmware_version_raw,#2))=1'
+            - uuid: 148a305cb76a4bffbd283c63d0c923fe
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.Firmware_version_raw)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.Firmware_version_raw,#2)'
               name: 'FW changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
-        - uuid: 9bcfc5341ef14deb9707eca9fd80dfa7
+        - uuid: 7bd7f86a5edb4f298dfc7bea6000f31c
           name: 'ICMP ping'
           type: SIMPLE
-          key: icmpping
+          key: integraX.icmpping
           history: 1w
           valuemap:
             name: 'Service state'
@@ -74,17 +74,17 @@ zabbix_export:
             - tag: Component
               value: '7 Status'
           triggers:
-            - uuid: 3a6d3e6db5974c58ad6ebea543205d73
-              expression: 'max(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmpping,#3)=0'
+            - uuid: 22cb7409fff3431099ca16dc39d46351
+              expression: 'max(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmpping,#3)=0'
               name: 'Unavailable by ICMP ping'
               priority: DISASTER
               description: |
                 Last value: {ITEM.LASTVALUE1}.
                 Last three attempts returned timeout.  Please check device connectivity.
-        - uuid: c83b91fefbe14790b711f9b7beac241e
+        - uuid: 58d89dd3a48d42d5b3f3cccee6772295
           name: 'ICMP loss'
           type: SIMPLE
-          key: icmppingloss
+          key: integraX.icmppingloss
           history: 1w
           value_type: FLOAT
           units: '%'
@@ -92,17 +92,17 @@ zabbix_export:
             - tag: Component
               value: '7 Status'
           triggers:
-            - uuid: 08343cf6b59a4ff8b3b251abef026969
-              expression: 'min(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmppingloss,5m)>{$ICMP_LOSS_WARN} and min(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmppingloss,5m)<100'
+            - uuid: 81239ad9b2224c5db147cddf0b4bcef7
+              expression: 'min(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmppingloss,5m)>{$ICMP_LOSS_WARN} and min(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmppingloss,5m)<100'
               name: 'High ICMP ping loss'
               priority: WARNING
               dependencies:
                 - name: 'Unavailable by ICMP ping'
-                  expression: 'max(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmpping,#3)=0'
-        - uuid: de7edee1729e4434a6a329e0d5f50bf3
+                  expression: 'max(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmpping,#3)=0'
+        - uuid: cddd36418d0e48149c36beec36ac5cba
           name: 'ICMP response time'
           type: SIMPLE
-          key: icmppingsec
+          key: integraX.icmppingsec
           history: 1w
           value_type: FLOAT
           units: s
@@ -110,21 +110,21 @@ zabbix_export:
             - tag: Component
               value: '7 Status'
           triggers:
-            - uuid: 04e51830d2374972bc49581f8c54d542
-              expression: 'avg(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmppingsec,5m)>{$ICMP_RESPONSE_TIME_WARN}'
+            - uuid: f4ecf5d3e0f84953a557ef8a103920a2
+              expression: 'avg(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmppingsec,5m)>{$ICMP_RESPONSE_TIME_WARN}'
               name: 'High ICMP ping response time {ITEM.LASTVALUE}'
               opdata: 'Value: {ITEM.LASTVALUE1}'
               priority: WARNING
               dependencies:
                 - name: 'High ICMP ping loss'
-                  expression: 'min(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmppingloss,5m)>{$ICMP_LOSS_WARN} and min(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmppingloss,5m)<100'
+                  expression: 'min(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmppingloss,5m)>{$ICMP_LOSS_WARN} and min(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmppingloss,5m)<100'
                 - name: 'Unavailable by ICMP ping'
-                  expression: 'max(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmpping,#3)=0'
-        - uuid: 619e1d3052f746a8a431230acc77734f
+                  expression: 'max(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmpping,#3)=0'
+        - uuid: 5e81cdee287648ec890ddc9866f7a08a
           name: 'WANHP dropped bits'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.57.5]'
-          key: integraXifAllCoSQdroppedBytes_WANHP
+          key: integraX.ifAllCoSQdroppedBytes_WANHP
           history: 90d
           units: b
           description: 'All CoSQ dropped bits'
@@ -135,11 +135,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: ccd6e33e91654a36839e9fcce39dd188
+        - uuid: c2eaf0e3dd2d485c8a37fd43fa4d4027
           name: 'WANLP dropped bits'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.57.4]'
-          key: integraXifAllCoSQdroppedBytes_WANLP
+          key: integraX.ifAllCoSQdroppedBytes_WANLP
           history: 90d
           units: b
           preprocessing:
@@ -149,46 +149,46 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: e1d0c37137e746bda652313f38488f8e
+        - uuid: 7a44bef15581440eb1852897564b1837
           name: 'WAN dropped bits'
           type: CALCULATED
-          key: integraXifdropped_WAN
+          key: integraX.ifdropped_WAN
           history: 90d
           trends: 30d
           units: b
-          params: 'last(//integraXifAllCoSQdroppedBytes_WANLP) + last(//integraXifAllCoSQdroppedBytes_WANHP)'
+          params: 'last(//integraX.ifAllCoSQdroppedBytes_WANLP) + last(//integraX.ifAllCoSQdroppedBytes_WANHP)'
           tags:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: 78ccf6317ec8439fbde3d10b8fc86565
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifdropped_WAN,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifdropped_WAN,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifdropped_WAN)<>0'
+            - uuid: 62f5f1ce71bd46b18086b99c046b99c7
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifdropped_WAN)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifdropped_WAN,#2)'
               name: 'WAN dropped packets increased {ITEM.LASTVALUE}'
               priority: INFO
               description: 'License expires within 2 weeks or already expired'
               manual_close: 'YES'
               dependencies:
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
                 - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
-        - uuid: 6b6b390699ff4197b0f0793d6ee50f87
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
+        - uuid: 3c7d206b1388446aa6d156411a989192
           name: 'WAN egress traffic'
           type: CALCULATED
-          key: integraXifEgressBPS_WAN
+          key: integraX.ifEgressBPS_WAN
           history: 90d
           value_type: FLOAT
           trends: 30d
           units: b
-          params: 'last(//integraXifEgressBPS_WANLP) + last(//integraXifEgressBPS_WANHP)'
+          params: 'last(//integraX.ifEgressBPS_WANLP) + last(//integraX.ifEgressBPS_WANHP)'
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: 2eb8ebeea263475986bdc403aafab8cb
+        - uuid: 184542c2dbac4afcb76fc00aa4105c2f
           name: 'WANHP egress traffic'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.52.5]'
-          key: integraXifEgressBPS_WANHP
+          key: integraX.ifEgressBPS_WANHP
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -200,11 +200,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: 331d1898d5ee4e80ac349883a8b00086
+        - uuid: 594b51a565584bae9ad941c27fb4ea35
           name: 'Egress traffic WANLP'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.52.4]'
-          key: integraXifEgressBPS_WANLP
+          key: integraX.ifEgressBPS_WANLP
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -216,11 +216,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: 60cfafd6d7154963aba8c1b7f01d871a
+        - uuid: 8d3fadd268a749b1863ec1c0ace8468e
           name: 'WANHP Egress traffic packets per second'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.53.5]'
-          key: integraXifEgressPPS_WANHP
+          key: integraX.ifEgressPPS_WANHP
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -228,11 +228,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: ab3ff3a7d3ea4c4aaddc8ddd354c5e33
+        - uuid: af87584ea1e04506976437cbb0beef37
           name: 'WANLP Egress traffic packets per second'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.53.4]'
-          key: integraXifEgressPPS_WANLP
+          key: integraX.ifEgressPPS_WANLP
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -240,11 +240,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: 4e51705bdc80436b8de6befe04ff2b06
+        - uuid: 80eeebf66f90408a9c0a9439d287207d
           name: 'WANHP ingress traffic'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.50.5]'
-          key: integraXifIngressBPS_WANHP
+          key: integraX.ifIngressBPS_WANHP
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -256,11 +256,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: 9fb2ca63f0f64ecf931985830603532e
+        - uuid: a907fa60d1504ed88ac47e93bd5444f5
           name: 'Ingress traffic WANLP'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.50.4]'
-          key: integraXifIngressBPS_WANLP
+          key: integraX.ifIngressBPS_WANLP
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -272,11 +272,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: a2fcf79f9a5d4602bae116ff168beff8
+        - uuid: c21055a99d1f44c0ba715d8e7a75bda8
           name: 'WANHP Ingress traffic packets per second'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.51.5]'
-          key: integraXifIngressPPS_WANHP
+          key: integraX.ifIngressPPS_WANHP
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -284,11 +284,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: 4b5b8063a6a94f1badb83bd209f5202a
+        - uuid: f695af1c6ee14f1fb8b869a90fa30f50
           name: 'WANLP Ingress traffic packets per second'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.2.1.51.4]'
-          key: integraXifIngressPPS_WANLP
+          key: integraX.ifIngressPPS_WANLP
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -296,11 +296,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: f984a790734c4898899ba446fc8653f7
+        - uuid: 53de5196d054438aae53c0180b97aa7c
           name: 'LSP port administrative state'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.3.0]'
-          key: integraXifLspPortAdminState
+          key: integraX.ifLspPortAdminState
           delay: 30m
           history: 10d
           valuemap:
@@ -310,11 +310,11 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '10 LSP'
-        - uuid: 1495aea4f6f641e68e99a1dcebe6d43e
+        - uuid: dc42e132f34e4aa7a7d6ccc7b181634f
           name: 'LSP port blocked by LSP advanced'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.6.0]'
-          key: integraXifLspPortDownBlockedByLspAdvanced
+          key: integraX.ifLspPortDownBlockedByLspAdvanced
           delay: 30m
           history: 10d
           valuemap:
@@ -322,11 +322,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '10 LSP'
-        - uuid: 8920c682b8c04e70ae968e43621bf427
+        - uuid: e4c44493137f4681a28dc2f90ff1e4e6
           name: 'LSP ports'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.4.0]'
-          key: integraXifLspPortList
+          key: integraX.ifLspPortList
           delay: 30m
           history: 10d
           valuemap:
@@ -334,11 +334,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '10 LSP'
-        - uuid: 1beb45f975a6412885efc0cbf76a856f
+        - uuid: 80fa81fdd5f14ab9b200f253c2d1a6eb
           name: 'LSP port status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.5.0]'
-          key: integraXifLspPortStatus
+          key: integraX.ifLspPortStatus
           delay: 30m
           history: 10d
           valuemap:
@@ -348,11 +348,11 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '10 LSP'
-        - uuid: 5bb0f7ba1bfc421f876564818902b814
+        - uuid: eadbbfb66d8148f19e98f241620f1373
           name: 'LAN1 Administrative Status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.7.1]'
-          key: integraXifPortAdminStatus_lan1
+          key: integraX.ifPortAdminStatus_lan1
           history: 90d
           valuemap:
             name: 'SAF 3 states'
@@ -360,20 +360,20 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: fb655aa2fffe48e081477bbe00d9ff9d
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan1,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan1,#2))=1'
+            - uuid: 4989fb8eadc54233ba80e8d8a8a7245f
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan1)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan1,#2)'
               name: 'LAN1 administrative status changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
-            - uuid: 8430cb95c2bb436080d6362ab47eea1f
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan1)=2'
+            - uuid: d83c47cbb3a649bc9556d92a453a18c1
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan1)=2'
               name: 'LAN1 administrative status {ITEM.LASTVALUE}'
               manual_close: 'YES'
-        - uuid: a570d683e5bd4692a4fe09f5ce099689
+        - uuid: 8f0706a2c5744fa8a1ec59f7798b7251
           name: 'LAN2 Administrative Status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.7.2]'
-          key: integraXifPortAdminStatus_lan2
+          key: integraX.ifPortAdminStatus_lan2
           history: 90d
           valuemap:
             name: 'SAF 3 states'
@@ -381,20 +381,20 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: 03b8fe95e79941ce8d1857cdb9291b5e
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan2,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan2,#2))=1'
+            - uuid: ffd73e32534747bc99f73e56fdfdb84b
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan2)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan2,#2)'
               name: 'LAN2 administrative status changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
-            - uuid: fade98255d384cc284c3f68ed095b0af
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan2)=2'
+            - uuid: d25c0d3566ed42c4b7272ab353ae4fda
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan2)=2'
               name: 'LAN2 administrative status {ITEM.LASTVALUE}'
               manual_close: 'YES'
-        - uuid: 0910a407b67a423baa84df8889d3cb04
+        - uuid: 346964212150460fbd725b0be66cdb15
           name: 'LAN3 Administrative Status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.7.3]'
-          key: integraXifPortAdminStatus_lan3
+          key: integraX.ifPortAdminStatus_lan3
           history: 90d
           valuemap:
             name: 'SAF 3 states'
@@ -402,20 +402,20 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: 806ff6e0bd7140f1b6aa9ccec338870e
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan3,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan3,#2))=1'
+            - uuid: f21d2902465a46f99b5c06c8e7d84b8e
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan3)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan3,#2)'
               name: 'LAN3 administrative status changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
-            - uuid: 7562586836284d20be6f9786ca1b2715
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan3)=2'
+            - uuid: e36113b315c745f6beedbe42d05f0e52
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan3)=2'
               name: 'LAN3 administrative status {ITEM.LASTVALUE}'
               manual_close: 'YES'
-        - uuid: 03bd791f531449bfa5e245221bcd66f8
+        - uuid: 286aebbc9431478a909cbb095572b3e2
           name: 'LAN1 Port Duplex'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.11.1]'
-          key: integraXifPortDuplex_LAN1
+          key: integraX.ifPortDuplex_LAN1
           history: 90d
           trends: 30d
           valuemap:
@@ -423,11 +423,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: bba6c058954d4008969df86369577133
+        - uuid: f6a422c4c1374940b5d34f8d296ccf06
           name: 'LAN2 Port Duplex'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.11.2]'
-          key: integraXifPortDuplex_LAN2
+          key: integraX.ifPortDuplex_LAN2
           history: 90d
           trends: 30d
           valuemap:
@@ -435,11 +435,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: bb8c2547de524fefa24a5d87b230c7e0
+        - uuid: 13aab6d96329495aafcd1a91e0e9c1ae
           name: 'LAN3 Port Duplex'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.11.3]'
-          key: integraXifPortDuplex_LAN3
+          key: integraX.ifPortDuplex_LAN3
           history: 90d
           trends: 30d
           valuemap:
@@ -447,11 +447,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '6 Ethernet'
-        - uuid: 8cace5939e3f49d5a16078545b18fe74
+        - uuid: 5732e493da0243feaca7df6858da8888
           name: 'LAN1 Port Speed'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.5.1]'
-          key: integraXifPortHighSpeed_LAN1
+          key: integraX.ifPortHighSpeed_LAN1
           history: 90d
           trends: 30d
           units: '!Mbps'
@@ -459,16 +459,16 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: 00de5741f05a4b4c8f30b6a3338271e9
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortHighSpeed_LAN1,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortHighSpeed_LAN1,#2))=1'
-              name: 'LAN1 Port Speed changed to {ITEM.LASTVALUE}'
+            - uuid: f851ecc02f46475d951b8f47e734f23f
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortHighSpeed_LAN1)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortHighSpeed_LAN1,#2)'
+              name: 'LAN1 port speed changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: 722c7974af3a466ea7c2394434bd60a0
+        - uuid: 3e706809168241f7b71ee53788faefd3
           name: 'LAN2 Port Speed'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.5.2]'
-          key: integraXifPortHighSpeed_LAN2
+          key: integraX.ifPortHighSpeed_LAN2
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -477,16 +477,16 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: 623216bb79d04bff9e2874a19ae47d03
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortHighSpeed_LAN2,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortHighSpeed_LAN2,#2))=1'
-              name: 'LAN2 Port Speed changed to {ITEM.LASTVALUE}'
+            - uuid: 7775880e12c342b2814d27e135c9a332
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortHighSpeed_LAN2)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortHighSpeed_LAN2,#2)'
+              name: 'LAN2 port speed changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: 5ac24f96662648d78220cebca32853de
+        - uuid: 01b1ed1140c240bca08e9f7c742d92dc
           name: 'LAN3 Port Speed'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.5.3]'
-          key: integraXifPortHighSpeed_LAN3
+          key: integraX.ifPortHighSpeed_LAN3
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -495,16 +495,16 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: ded2a30dd1c045e982f31d49c50c9b5c
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortHighSpeed_LAN3,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortHighSpeed_LAN3,#2))=1'
-              name: 'LAN3 Port Speed changed to {ITEM.LASTVALUE}'
+            - uuid: bf922af4a4214aee9b1a3220c95ca709
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortHighSpeed_LAN3)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortHighSpeed_LAN3,#2)'
+              name: 'LAN3 port speed changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: 4353d668554a49a38f16bf3df5488c68
+        - uuid: d695cfafe3534409be04b994c7eeccce
           name: 'LAN1 Operational Status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.8.1]'
-          key: integraXifPortOperStatus_LAN1
+          key: integraX.ifPortOperStatus_LAN1
           history: 90d
           valuemap:
             name: 'SAF_ports Operational status'
@@ -512,19 +512,19 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: 7cc26089e9504bcf86ad6b6d80684a68
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortOperStatus_LAN1)=2 or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortOperStatus_LAN1)=3'
+            - uuid: fb310d3b5b5843759f26600ab4a19f00
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortOperStatus_LAN1)=2 or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortOperStatus_LAN1)=3'
               name: 'LAN1 port DOWN'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'LAN1 administrative status {ITEM.LASTVALUE}'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan1)=2'
-        - uuid: ff9f05865edc40f7ad67d7c20962b64c
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan1)=2'
+        - uuid: c8eed3b0489e4a9fa6d710035358f884
           name: 'LAN2 Operational Status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.8.2]'
-          key: integraXifPortOperStatus_LAN2
+          key: integraX.ifPortOperStatus_LAN2
           history: 90d
           valuemap:
             name: 'SAF_ports Operational status'
@@ -532,21 +532,21 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: 5fc3913c8ff548919e4d841deab64b77
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortOperStatus_LAN2)=2 or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortOperStatus_LAN2)=3'
+            - uuid: a4998ccd8206483fb0aceb07e04d326d
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortOperStatus_LAN2)=2 or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortOperStatus_LAN2)=3'
               recovery_mode: RECOVERY_EXPRESSION
-              recovery_expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortOperStatus_LAN2)=1'
+              recovery_expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortOperStatus_LAN2)=1'
               name: 'LAN2 port DOWN'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'LAN2 administrative status {ITEM.LASTVALUE}'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan2)=2'
-        - uuid: 64242f5a90244da4b82cc21ce92f9afc
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan2)=2'
+        - uuid: e21a99d18c2e4a66a996db0254e205f2
           name: 'LAN3 Operational Status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.5.1.1.8.3]'
-          key: integraXifPortOperStatus_LAN3
+          key: integraX.ifPortOperStatus_LAN3
           history: 90d
           valuemap:
             name: 'SAF_ports Operational status'
@@ -554,21 +554,21 @@ zabbix_export:
             - tag: Component
               value: '6 Ethernet'
           triggers:
-            - uuid: 6f59f1ec254a4f3abdd34cce99e99422
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortOperStatus_LAN3)=2 or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortOperStatus_LAN3)=3'
+            - uuid: a638d0bec54340d9a702611508ad524b
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortOperStatus_LAN3)=2 or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortOperStatus_LAN3)=3'
               recovery_mode: RECOVERY_EXPRESSION
-              recovery_expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortOperStatus_LAN3)=1'
+              recovery_expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortOperStatus_LAN3)=1'
               name: 'LAN3 port DOWN'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'LAN3 administrative status {ITEM.LASTVALUE}'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifPortAdminStatus_lan3)=2'
-        - uuid: 7054b5fbd6a4497e88458ed187605074
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifPortAdminStatus_lan3)=2'
+        - uuid: c827b93d968647ef972c27e7412b1e85
           name: 'Modem A ACM engine status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.11.0]'
-          key: integraXmodemAacmEngine
+          key: integraX.modemAacmEngine
           history: 90d
           trends: 30d
           description: 'ACM engine status'
@@ -579,36 +579,22 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '2 Modem A'
-        - uuid: 8f6458d246c94ce19bb0478f01075bc1
+        - uuid: 246c1a85d0234197bf7371ba61e12d7f
           name: 'Modem A acquire last status details'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.5.0]'
-          key: integraXmodemAacquireLastStatusDetails
+          key: integraX.modemAacquireLastStatusDetails
           history: 90d
           valuemap:
-            name: SAF_IntX_Modem_status
+            name: 'SAF Integra acquire statuss'
           tags:
             - tag: Component
               value: '2 Modem A'
-          triggers:
-            - uuid: 468d0ca2cf0840ad8c1c887a9a34fec4
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireLastStatusDetails)<>1'
-              name: 'Modem  A acquire status {ITEM.LASTVALUE}'
-              priority: HIGH
-              manual_close: 'YES'
-              dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
-                - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
-              tags:
-                - tag: Component
-                  value: ModemA
-        - uuid: 70fe573ffcbe4f7e921165b2fbe72abd
+        - uuid: ef300b3fe8314fbba36482e4a81a9975
           name: 'Modem A Acquire status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.1.0]'
-          key: integraXmodemAacquireStatus
+          key: integraX.modemAacquireStatus
           history: 90d
           trends: 30d
           valuemap:
@@ -616,23 +602,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-          triggers:
-            - uuid: 050cd63ca367424eab2c45c439497b78
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
-              name: 'Modem A not synced'
-              priority: DISASTER
-              manual_close: 'YES'
-              dependencies:
-                - name: 'Operational mode B'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="B"'
-              tags:
-                - tag: Component
-                  value: ModemA
-        - uuid: 19c8155485564d7caefa1430c3489652
+        - uuid: cb4c683531c34d35b45117d49f18abfb
           name: 'Modem A performance background block errors'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.17.0]'
-          key: integraXmodemAbackgroundBlockError
+          key: integraX.modemAbackgroundBlockError
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -640,11 +614,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 00242cb94aee47bc840d3d354642cd10
+        - uuid: c299543b95f347bca83fc17f8c729057
           name: 'Modem A BBE'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.21.0]'
-          key: integraXmodemAbackgroundBlockErrorRatio
+          key: integraX.modemAbackgroundBlockErrorRatio
           history: 90d
           value_type: FLOAT
           description: 'Modem performance background block error ratio'
@@ -652,24 +626,26 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: 3afa97ff0bb64ef0abb9f31f8b2b7e39
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAbackgroundBlockErrorRatio,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAbackgroundBlockErrorRatio,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAbackgroundBlockErrorRatio)<>0'
+            - uuid: 3d7a3253e4df4ce4b50fb063aba7135c
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAbackgroundBlockErrorRatio)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAbackgroundBlockErrorRatio,#2)'
               name: 'Modem  A  BBE increase {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 0648a63da71b456981765644b020aa56
+        - uuid: 77c483b1ef174f9a8d1620adf11ab73e
           name: 'Modem A ACM carrier offset'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.12.0]'
-          key: integraXmodemAcarrierOffset
+          key: integraX.modemAcarrierOffset
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -686,24 +662,26 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: ce25f7d411434aacbaa0870f8dbd6400
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAcarrierOffset)>={$CARROFFSETMAX}'
-              name: 'Modem A carrier offset {ITEM.LASTVALUE}'
+            - uuid: fe9352ed5d7f4a96abc97b420f3af6c8
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAcarrierOffset)>={$CARROFFSETMAX}'
+              name: 'Modem A carrier offset {ITEM.LASTVALUE} out of range'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 7ae571b1529e494ebd6142e11bfb37d9
+        - uuid: 0e4831f5e25b4a608d232b6d67fbe260
           name: 'Modem A performance count time'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.13.0]'
-          key: integraXmodemAcountTime
+          key: integraX.modemAcountTime
           delay: 5m
           history: 90d
           trends: 30d
@@ -715,11 +693,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: a65eb6ae09f04976b4b41333ded50432
+        - uuid: 6690d58181484b419ba10f8e19d04d4b
           name: 'Modem A performance errored blocks'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.14.0]'
-          key: integraXmodemAerroredBlock
+          key: integraX.modemAerroredBlock
           delay: 5m
           history: 90d
           trends: 30d
@@ -727,11 +705,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 0773379626604bd1836fcf89be9356f3
+        - uuid: 5fd62baf092f42758f6b059ceb861b64
           name: 'Modem A errored seconds'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.15.0]'
-          key: integraXmodemAerroredSecond
+          key: integraX.modemAerroredSecond
           history: 90d
           trends: 30d
           units: s
@@ -739,67 +717,69 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: e1725a89c23949b8b896bb52982fb126
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAerroredSecond,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAerroredSecond,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAerroredSecond)<>0'
-              name: 'Modem A errored second count increased {ITEM.LASTVALUE}'
+            - uuid: 22c83507a22141688b4bbf6a7a3f2c7e
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAerroredSecond)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAerroredSecond,#2)'
+              name: 'Modem A errored second count increased to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 241721a15b6945f7ab070e1f50c02cec
+        - uuid: 2eea97be8f264391a38d5bf56a3ebcc5
           name: 'Modem A errored second ratio'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.19.0]'
-          key: integraXmodemAerroredSecondRatio
+          key: integraX.modemAerroredSecondRatio
           history: 90d
           value_type: FLOAT
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 3b8bc849a92a4a0b8fc6a3b6268ef9bb
+        - uuid: 1bde7a19907f44d6a17ab1952831355b
           name: 'Modem A LDPC block counter'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.24.0]'
-          key: integraXmodemAfecLdpcBlockCounter
+          key: integraX.modemAfecLdpcBlockCounter
           history: 90d
           trends: 30d
           description: 'Modem FEC load block counter'
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 4e745aedc48e4905a61d7171133c105a
+        - uuid: c31c65738df943c7910aa952ea7163df
           name: 'Modem A FEC load uncorrected block counter'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.25.0]'
-          key: integraXmodemAfecLdpcUncorrectedBlockCounter
+          key: integraX.modemAfecLdpcUncorrectedBlockCounter
           history: 90d
           trends: 30d
           tags:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: dfc82191fd7844869734fa4abaece2ed
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAfecLdpcUncorrectedBlockCounter,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAfecLdpcUncorrectedBlockCounter,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAfecLdpcUncorrectedBlockCounter)<>0'
-              name: 'Modem A FEC load uncorrected block counter increased {ITEM.LASTVALUE}'
+            - uuid: 1ff1d30c78734b9fa264334215af20af
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAfecLdpcUncorrectedBlockCounter)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAfecLdpcUncorrectedBlockCounter,#2)'
+              name: 'Modem A FEC load uncorrected block counter increased to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode A'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="A"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="A"'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 96c42a33f0e54669a8100fad89fad9d9
+        - uuid: f3cf4b26964d45549531600353885eb9
           name: 'Modem A FEC load uncorrected percent'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.26.0]'
-          key: integraXmodemAfecLdpcUncorrectedPercent
+          key: integraX.modemAfecLdpcUncorrectedPercent
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -807,55 +787,57 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 5ae1140684f04d908822db703962e34e
+        - uuid: 3f67bb09315c43b39e7815f713e7fdd5
           name: 'Modem A FEC load'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.3.0]'
-          key: integraXmodemAfecLoad
+          key: integraX.modemAfecLoad
           history: 90d
           value_type: FLOAT
           tags:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: ac4f4faaa40e41c7956e71047a1dc8b9
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAfecLoad)>={$FECLOADMAX}'
-              name: 'Modem A FEC load {ITEM.LASTVALUE}'
+            - uuid: 663569837964465f910285e9337ca487
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAfecLoad)>={$FECLOADMAX}'
+              name: 'Modem A FEC load {ITEM.LASTVALUE} high'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 990a6f38db9545288ec87b13493bc529
+        - uuid: b6298b553b6e47859a6166bef3f5aa15
           name: 'Modem A FEC load RS block counter'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.27.0]'
-          key: integraXmodemAfecRsBlockCounter
+          key: integraX.modemAfecRsBlockCounter
           history: 90d
           trends: 30d
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 527b88f0302b4abcba46d33ed80062e7
+        - uuid: 1d319e92eb944a22b05c4fe188b1884b
           name: 'Modem A FEC load RS uncorrected block counter'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.28.0]'
-          key: integraXmodemAfecRsUncorrectedBlockCounter
+          key: integraX.modemAfecRsUncorrectedBlockCounter
           history: 90d
           trends: 30d
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: a036886c15df4601b42c9073e540e78c
+        - uuid: a3edbb0c3d384968b22d2c927df294a2
           name: 'Modem A ACM max modulation'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.30.0]'
-          key: integraXmodemAmodulationACMmax
+          key: integraX.modemAmodulationACMmax
           history: 90d
           units: '!QAM'
           preprocessing:
@@ -866,11 +848,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 16756af3500147d3a36cc230ec737608
+        - uuid: 82623495fa7f422b8d942118ada30c0e
           name: 'Modem A ACM min modulation'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.29.0]'
-          key: integraXmodemAmodulationACMmin
+          key: integraX.modemAmodulationACMmin
           history: 90d
           units: '!QAM'
           preprocessing:
@@ -881,11 +863,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: db4066d6e41a45b5bf2d3a797eae42e8
+        - uuid: 46fffed5ad264cf6bbf06749d97316c2
           name: 'Modem A MSE'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.2.0]'
-          key: integraXmodemAnormalizedMse
+          key: integraX.modemAnormalizedMse
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -898,24 +880,26 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: 2267d819ef5241579ab90d6989ea026c
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAnormalizedMse)>={$MSEMIN}'
+            - uuid: fe67f5e0a52943b08f5c96cfb47307ef
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAnormalizedMse)>={$MSEMIN}'
               name: 'Modem A MSE {ITEM.LASTVALUE}'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 1110ac40bd3a4181a8235d5fc53727f1
+        - uuid: 519188157f964a489d9dd235e9f36d91
           name: 'Modem A Current Rx capacity'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.9.0]'
-          key: integraXmodemArxCapacity
+          key: integraX.modemArxCapacity
           history: 90d
           trends: 30d
           units: bps
@@ -927,24 +911,26 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: 19cb101dbb3b46eb9d35af8025258398
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemArxCapacity,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemArxCapacity,#2))=1'
-              name: 'Modem A Rx Capacity {ITEM.LASTVALUE}'
+            - uuid: 62ef70f1acd9426d9d4771840d5771b1
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemArxCapacity)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemArxCapacity,#2)'
+              name: 'Modem A Rx capacity changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 5e29e995ff804587899e82efa5e87537
+        - uuid: 5231b2d2fcb449a5932a9a860211147e
           name: 'Modem A actual Rx modulation'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.7.0]'
-          key: integraXmodemArxModulation
+          key: integraX.modemArxModulation
           history: 90d
           value_type: LOG
           trends: '0'
@@ -959,24 +945,26 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: dfd1810b03464240b1972c0148ea4f70
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemArxModulation,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemArxModulation,#2))=1'
-              name: 'Modem  A  Actual Rx modulation changed to {ITEM.LASTVALUE}'
+            - uuid: c338c0f2e0564c52a78b19ecbb49644a
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemArxModulation)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemArxModulation,#2)'
+              name: 'Modem A actual Rx modulation changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: e409a14686f445ac885752e709c397e1
+        - uuid: 2b7fa302c31d42feafcf2c1414e93cb3
           name: 'Modem A severely Errored seconds'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.16.0]'
-          key: integraXmodemAseverelyErroredSecond
+          key: integraX.modemAseverelyErroredSecond
           history: 90d
           trends: 30d
           units: s
@@ -984,37 +972,26 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: 045ee652da504d16a70820a16f2938ba
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAseverelyErroredSecond,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAseverelyErroredSecond,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAseverelyErroredSecond)<>0'
+            - uuid: f75ae43cbbde4088a23bc12f4a2d5064
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAseverelyErroredSecond)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAseverelyErroredSecond,#2)'
               name: 'Modem A SES count increased to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-            - uuid: d28f4df34cd447f0965f3924c596dcbb
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAseverelyErroredSecond,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAseverelyErroredSecond,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAseverelyErroredSecond)<>0'
-              name: 'Modem A SES errors increased {ITEM.LASTVALUE}'
-              priority: WARNING
-              manual_close: 'YES'
-              dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
-                - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
-              tags:
-                - tag: Component
-                  value: ModemB
-        - uuid: 1dd76a52d6b448c3a1dcadefa2947498
+        - uuid: 10f1fa0848c24ceeb822b9d34dce3f90
           name: 'Modem A severely Errored second ratio'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.20.0]'
-          key: integraXmodemAseverelyErroredSecondRatio
+          key: integraX.modemAseverelyErroredSecondRatio
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1022,11 +999,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 9beef8fe02394d3ca9355e6e15817f7f
+        - uuid: d12b39d4671c4af991fe09db0f27b463
           name: 'Modem A temperature'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.6.0]'
-          key: integraXmodemAtemperature
+          key: integraX.modemAtemperature
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1039,43 +1016,43 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: e015c531b2d54619a635fb5d4a9559fd
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAtemperature)>={$TEMPMAX100}'
+            - uuid: a536a08d133c46f7a14ca48f0b70ddb9
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAtemperature)>={$TEMPMAX100}'
               name: 'Modem A temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode B'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="B"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="B"'
               tags:
                 - tag: Component
                   value: ModemA
-            - uuid: 43b2a1c0cca44c38920e75f38c3613f8
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAtemperature)<={$TEMPMIN}'
+            - uuid: 262d215689474f6bbdec677cc682b23f
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAtemperature)<={$TEMPMIN}'
               name: 'Modem A temperature {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode B'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="B"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="B"'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 59998d37eb3240ea8fdbddb5986ad64b
+        - uuid: 1b8912e6d4ab4c7480a6742dd7153c54
           name: 'Modem A severely total block number'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.18.0]'
-          key: integraXmodemAtotalBlockNumber
+          key: integraX.modemAtotalBlockNumber
           history: 90d
           trends: 30d
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: fd2012d5212d4c749ef605656a690643
+        - uuid: 0a7578f755b94c43a0b1b9d4b7dc8ec5
           name: 'Modem A current Tx capacity'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.10.0]'
-          key: integraXmodemAtxCapacity
+          key: integraX.modemAtxCapacity
           history: 90d
           trends: 30d
           units: bps
@@ -1087,24 +1064,26 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: fe21ff10af8b41dfa97daf13d3e0d962
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAtxCapacity,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAtxCapacity,#2))=1'
-              name: 'Modem A Tx Capacity changed to {ITEM.LASTVALUE}'
+            - uuid: 6e4a09a1b6004b66b6dd6c6ecc247354
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAtxCapacity)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAtxCapacity,#2)'
+              name: 'Modem A Tx capacity changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 0f65120277a24283879e5ff5099cdd0c
+        - uuid: f21762adc99143468765648b4134d4f6
           name: 'Modem A actual Tx modulation'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.8.0]'
-          key: integraXmodemAtxModulation
+          key: integraX.modemAtxModulation
           delay: '60'
           history: 90d
           value_type: LOG
@@ -1120,23 +1099,25 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: d126542f771a4b89995976eb5e1d2836
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAtxModulation,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAtxModulation,#2))=1'
-              name: 'Modem  A  Actual Tx modulation changed to {ITEM.LASTVALUE}'
+            - uuid: a60b79185e2147bab6e361d267d8ad08
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAtxModulation)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAtxModulation,#2)'
+              name: 'Modem A actual Tx modulation changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: ed8c01954b624cf5b5cf318bbcf84f13
+        - uuid: 6e58462c04b2482384067a1574c9ae6c
           name: 'Modem A numeric actual Tx modulation'
           type: DEPENDENT
-          key: integraXmodemAtxModulationnum
+          key: integraX.modemAtxModulationnum
           delay: '0'
           history: 90d
           units: '!QAM'
@@ -1146,15 +1127,15 @@ zabbix_export:
                 - (\d+)
                 - \1
           master_item:
-            key: integraXmodemAtxModulation
+            key: integraX.modemAtxModulation
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: b56884a807f0420092f4c3a323e95f37
+        - uuid: 1caf576fe0304c1392a3067994d48291
           name: 'Modem A unavailable time'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.23.0]'
-          key: integraXmodemAunavailtime
+          key: integraX.modemAunavailtime
           history: 90d
           trends: 30d
           units: s
@@ -1162,35 +1143,37 @@ zabbix_export:
             - tag: Component
               value: '2 Modem A'
           triggers:
-            - uuid: 8ea64bcb147149ba99283db807674a57
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAunavailtime,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAunavailtime,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAunavailtime)<>0'
-              name: 'Modem A unavailable time increased {ITEM.LASTVALUE}'
+            - uuid: f5cb46d9d0094d0d81df7b65a64611af
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAunavailtime)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAunavailtime,#2)'
+              name: 'Modem A unavailable time increased to {ITEM.LASTVALUE}'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 9f0cafd4f88b494c974cad31f0942e18
+        - uuid: 95ed4fc6390a4ee981d37178a299233e
           name: 'Modem A uptime'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.22.0]'
-          key: integraXmodemAuptime
+          key: integraX.modemAuptime
           history: 90d
           trends: 30d
           units: s
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: f8b1f74e8c444388b79937b51226abc7
+        - uuid: 95ddb34eae094cde9daf39f702fdb581
           name: 'Modem A estimated XPD'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.1.4.0]'
-          key: integraXmodemAxpdEst
+          key: integraX.modemAxpdEst
           history: 90d
           value_type: FLOAT
           units: dB
@@ -1202,11 +1185,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '2 Modem A'
-        - uuid: 138c9dac0e3f41f38a2c0f7c3af85158
+        - uuid: 0cbeaa4ba02e4b3e8a1f0c2d2df08f74
           name: 'Modem B ACM engine status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.11.0]'
-          key: integraXmodemBacmEngine
+          key: integraX.modemBacmEngine
           history: 90d
           valuemap:
             name: 'SAF ACM engine status'
@@ -1215,36 +1198,20 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '3 Modem B'
-        - uuid: 69cdadb074204c63aa2bca2c66f49715
+        - uuid: 940331b10bf54db284538d6228d0a1c9
           name: 'Modem B acquire last status details'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.5.0]'
-          key: integraXmodemBacquireLastStatusDetails
+          key: integraX.modemBacquireLastStatusDetails
           history: 90d
-          valuemap:
-            name: SAF_IntX_Modem_status
           tags:
             - tag: Component
               value: '3 Modem B'
-          triggers:
-            - uuid: b4aa48c0d07547478fabd82f60ad39c6
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireLastStatusDetails)<>1'
-              name: 'Modem  B acquire status {ITEM.LASTVALUE}'
-              priority: HIGH
-              manual_close: 'YES'
-              dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
-                - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
-              tags:
-                - tag: Component
-                  value: ModemA
-        - uuid: 3bd478f612ce4ec9a1e8fbba7aadeed8
+        - uuid: de1a85b1d4a74410a99bfc7c5228fd50
           name: 'Modem B acquire status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.1.0]'
-          key: integraXmodemBacquireStatus
+          key: integraX.modemBacquireStatus
           history: 90d
           trends: 30d
           valuemap:
@@ -1252,23 +1219,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '3 Modem B'
-          triggers:
-            - uuid: 5026b2207197480e883996bad8635de3
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
-              name: 'Modem B not synced'
-              priority: DISASTER
-              manual_close: 'YES'
-              dependencies:
-                - name: 'Operational mode A'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="A"'
-              tags:
-                - tag: Component
-                  value: ModemB
-        - uuid: f159797625a1481582f1633aee00c286
+        - uuid: fed7282fb12e456c931466ca4d756b07
           name: Bandwidth
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.3.0]'
-          key: integraXmodemBandwidth
+          key: integraX.modemBandwidth
           delay: 3h
           history: 90d
           trends: 30d
@@ -1281,16 +1236,16 @@ zabbix_export:
             - tag: Component
               value: '1 Overall Parameters'
           triggers:
-            - uuid: ffba0bad6e134cf7ad54584486ce499a
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBandwidth,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBandwidth,#2))=1'
+            - uuid: b16a0b0648844f7298e5c3955473e22d
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBandwidth)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBandwidth,#2)'
               name: 'Modem bandwidth changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
-        - uuid: 0b19cd8b2fdc47b0a9817560558acccf
+        - uuid: 9fd9b8c8dac74b999e309e05f27a24f7
           name: 'Modem B performance background block errors'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.17.0]'
-          key: integraXmodemBbackgroundBlockError
+          key: integraX.modemBbackgroundBlockError
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1301,11 +1256,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 4f37d232f9784a48b725a77356bf55d2
+        - uuid: 12b3cd070d984c6388870d906f0524ac
           name: 'Modem B BBE'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.21.0]'
-          key: integraXmodemBbackgroundBlockErrorRatio
+          key: integraX.modemBbackgroundBlockErrorRatio
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1314,24 +1269,26 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: 58e3fc0dbe4c40b697f7e3566fd4a67f
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBbackgroundBlockErrorRatio,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBbackgroundBlockErrorRatio,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBbackgroundBlockErrorRatio)<>0'
-              name: 'Modem  B  BBE increase {ITEM.LASTVALUE}'
+            - uuid: afb23627a18d4ab4ae0187f4cbdf7e3c
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBbackgroundBlockErrorRatio)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBbackgroundBlockErrorRatio,#2)'
+              name: 'Modem  B  BBE increase to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 971cd93af2614939a3f5c220801a4d28
+        - uuid: 0458bc2bf7e3445394b36d3784f03198
           name: 'Modem B ACM carrier offset'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.12.0]'
-          key: integraXmodemBcarrierOffset
+          key: integraX.modemBcarrierOffset
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1348,24 +1305,26 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: ed1afc6e5aa7461bab6de8136bd9b562
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBcarrierOffset)>={$CARROFFSETMAX}'
-              name: 'Modem B carrier offset {ITEM.LASTVALUE}'
+            - uuid: f6fbd0714eb14cbbbda02bb1a738d459
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBcarrierOffset)>={$CARROFFSETMAX}'
+              name: 'Modem B carrier offset {ITEM.LASTVALUE} out of range'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem B not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
+                - name: 'Modem B not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
                 - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: 1c236d8521cb4ae0b62d317e4725fbaf
+        - uuid: 0395eda0d3b742f9b36736d16c6f00c1
           name: 'Modem B performance count time'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.13.0]'
-          key: integraXmodemBcountTime
+          key: integraX.modemBcountTime
           delay: 5m
           history: 90d
           trends: 30d
@@ -1376,11 +1335,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 6406bdc5c34e437f80bf8ec4f9925034
+        - uuid: d8d2f5e373ba404eb30860f47521147d
           name: 'Modem B performance errored blocks'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.14.0]'
-          key: integraXmodemBerroredBlock
+          key: integraX.modemBerroredBlock
           delay: 5m
           history: 90d
           trends: 30d
@@ -1391,11 +1350,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 34fec8413e474ba483af884fe9ec2cca
+        - uuid: f173d4b2188546229996917be3b3d5e6
           name: 'Modem B errored seconds'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.15.0]'
-          key: integraXmodemBerroredSecond
+          key: integraX.modemBerroredSecond
           history: 90d
           trends: 30d
           units: s
@@ -1403,45 +1362,47 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: 6f6dd3be4b7c4707869f8a37e63751f4
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBerroredSecond,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBerroredSecond,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBerroredSecond)<>0'
-              name: 'Modem B errored second count increased {ITEM.LASTVALUE}'
+            - uuid: 5ae639986dfd47da852d4686903313c8
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBerroredSecond)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBerroredSecond,#2)'
+              name: 'Modem B errored second count increased to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem B not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
+                - name: 'Modem B not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
                 - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
               tags:
                 - tag: Component
                   value: ModemB
-        - uuid: bc174df59a9d44c29a104836d9e71c9f
+        - uuid: c3d5d120d77e4af88d7029624930d4b2
           name: 'Modem B errored seconds ratio'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.19.0]'
-          key: integraXmodemBerroredSecondRatio
+          key: integraX.modemBerroredSecondRatio
           history: 90d
           value_type: FLOAT
           trends: 30d
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: e52dda3bca5445619fa53028b80dce64
+        - uuid: 3c2226b924b9432eb2272442c3870fba
           name: 'Modem B LDPC block counter'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.24.0]'
-          key: integraXmodemBfecLdpcBlockCounter
+          key: integraX.modemBfecLdpcBlockCounter
           history: 90d
           trends: 30d
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 68699c5f6d3848afb516d37815415650
+        - uuid: b40547969ffa497c85f28c0ca8a85fd0
           name: 'Modem B FEC load uncorrected block counter'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.25.0]'
-          key: integraXmodemBfecLdpcUncorrectedBlockCounter
+          key: integraX.modemBfecLdpcUncorrectedBlockCounter
           history: 90d
           trends: 30d
           description: 'Modem FEC load uncorrected block counter'
@@ -1449,22 +1410,22 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: c0dbad6dd56c4290b9f7a752040b343f
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBfecLdpcUncorrectedBlockCounter,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBfecLdpcUncorrectedBlockCounter,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBfecLdpcUncorrectedBlockCounter)<>0'
-              name: 'Modem B FEC load uncorrected block counter increased {ITEM.LASTVALUE}'
+            - uuid: 7317573ad5bb450ba31a0c8f33913acc
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBfecLdpcUncorrectedBlockCounter)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBfecLdpcUncorrectedBlockCounter,#2)'
+              name: 'Modem B FEC load uncorrected block counter increased to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode B'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="B"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="B"'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: a7ffb0d2ad8e417eb2ee8d35eae71d11
+        - uuid: 2f15dbfbf50c4906931f5dbf124481b8
           name: 'Modem B FEC load uncorrected percent'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.26.0]'
-          key: integraXmodemBfecLdpcUncorrectedPercent
+          key: integraX.modemBfecLdpcUncorrectedPercent
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1472,55 +1433,57 @@ zabbix_export:
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: f505d8dfc8d145b18d83b01ad9475c19
+        - uuid: bb4feef2e5f04872af543908ddcc0a50
           name: 'Modem B FEC load'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.3.0]'
-          key: integraXmodemBfecLoad
+          key: integraX.modemBfecLoad
           history: 90d
           value_type: FLOAT
           tags:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: a266b98346ce480b95c87ac2f219caec
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBfecLoad)>={$FECLOADMAX}'
-              name: 'Modem B FEC Load {ITEM.LASTVALUE}'
+            - uuid: 317fed4ffe124480bb6cdb67eaff57d3
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBfecLoad)>={$FECLOADMAX}'
+              name: 'Modem B FEC load {ITEM.LASTVALUE} high'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem B not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
+                - name: 'Modem B not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
                 - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
               tags:
                 - tag: Component
                   value: ModemB
-        - uuid: fa46df9d1e234fcba26d30389d093d7b
+        - uuid: 9c57bcf98c9f4835b171922ed9ac94ee
           name: 'Modem B FEC load RS block counter'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.27.0]'
-          key: integraXmodemBfecRsBlockCounter
+          key: integraX.modemBfecRsBlockCounter
           history: 90d
           trends: 30d
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 7c5a084bc29c45e9a7fa3468d8699211
+        - uuid: 20266c57748345d390d24f859f1771d8
           name: 'Modem B FEC load RS uncorrected block counter'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.28.0]'
-          key: integraXmodemBfecRsUncorrectedBlockCounter
+          key: integraX.modemBfecRsUncorrectedBlockCounter
           history: 90d
           trends: 30d
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 3dcbd6c6a0ac46f0ad6964be5787b579
+        - uuid: df05847848f24d7aa83ca85bb791d94b
           name: 'Modem B ACM max modulation'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.30.0]'
-          key: integraXmodemBmodulationACMmax
+          key: integraX.modemBmodulationACMmax
           history: 90d
           units: '!QAM'
           preprocessing:
@@ -1531,11 +1494,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 19657188a34e4ec2b3ef7bad754794a8
+        - uuid: 239aee46110d4c23b7bbe80a26099f0a
           name: 'Modem B ACM min modulation'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.29.0]'
-          key: integraXmodemBmodulationACMmin
+          key: integraX.modemBmodulationACMmin
           history: 90d
           units: '!QAM'
           preprocessing:
@@ -1546,11 +1509,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 895a03c48dde440bb083fac00fcbf753
+        - uuid: d01b374ac9ab444ea07b5e0f9fd6ca7c
           name: 'Modem B MSE'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.2.0]'
-          key: integraXmodemBnormalizedMse
+          key: integraX.modemBnormalizedMse
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1563,16 +1526,16 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: fa96637e49534bef8c2b55128ae5b15e
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBnormalizedMse)>={$MSEMIN}'
+            - uuid: 54c89ad952484ee4bd7a774225f5d50b
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBnormalizedMse)>={$MSEMIN}'
               name: 'Modem B MSE {ITEM.LASTVALUE}'
               priority: HIGH
               manual_close: 'YES'
-        - uuid: 86877cce757e44928863c37c3a4e3943
+        - uuid: 04b552b5e05b4f26aefed411db8f1565
           name: 'Modem B current Rx capacity'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.9.0]'
-          key: integraXmodemBrxCapacity
+          key: integraX.modemBrxCapacity
           history: 90d
           trends: 30d
           units: bps
@@ -1584,24 +1547,26 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: b7d0094300a04689847e4f809c12fd3f
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBrxCapacity,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBrxCapacity,#2))=1'
-              name: 'Modem B Rx Capacity changed to {ITEM.LASTVALUE}'
+            - uuid: 3739b7442c2b41fb85aaf6ef511a6196
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBrxCapacity)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBrxCapacity,#2)'
+              name: 'Modem B Rx capacity changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem B not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
+                - name: 'Modem B not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
                 - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
               tags:
                 - tag: Component
                   value: ModemB
-        - uuid: 91d78cd7187d482daf7071e158faf0e2
+        - uuid: 0e1851a1178f42cb848044d0918e166a
           name: 'Modem B Rx actual modulation'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.7.0]'
-          key: integraXmodemBrxModulation
+          key: integraX.modemBrxModulation
           delay: '60'
           history: 90d
           value_type: LOG
@@ -1617,24 +1582,26 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: 3199cb7f0a47409d82ebab82cf76e89b
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBrxModulation,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBrxModulation,#2))=1'
-              name: 'Modem  B  Actual Rx modulation changed to {ITEM.LASTVALUE}'
+            - uuid: f3ac177d87ff45febd5d897c99cffef8
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBrxModulation)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBrxModulation,#2)'
+              name: 'Modem B actual Rx modulation changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem B not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
+                - name: 'Modem B not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
                 - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
               tags:
                 - tag: Component
                   value: ModemB
-        - uuid: 44c2cb87c15f4ebe84c7545207185785
+        - uuid: 40865ef6fb71460bb1c69b0890fcc2df
           name: 'Modem B severely Errored seconds'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.16.0]'
-          key: integraXmodemBseverelyErroredSecond
+          key: integraX.modemBseverelyErroredSecond
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1643,48 +1610,37 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: 51d340089f974bf3b9817b255aeaf573
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBseverelyErroredSecond,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBseverelyErroredSecond,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBseverelyErroredSecond)<>0'
+            - uuid: 33b819e60b344759bcc45c88b919bc44
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBseverelyErroredSecond)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBseverelyErroredSecond,#2)'
               name: 'Modem B SES count increased to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-            - uuid: 9af8eccc2a9c4c5abbef1318186eac77
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBseverelyErroredSecond,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBseverelyErroredSecond,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBseverelyErroredSecond)<>0'
-              name: 'Modem B SES errors increased {ITEM.LASTVALUE}'
-              priority: WARNING
-              manual_close: 'YES'
-              dependencies:
-                - name: 'Modem B not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
-                - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
-              tags:
-                - tag: Component
-                  value: ModemB
-        - uuid: 852ef4cf0cfc4b57a1244a1451acc45a
+        - uuid: c7d0eb7ef2394bf4883b48682464172a
           name: 'Modem B severely Errored seconds ratio'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.20.0]'
-          key: integraXmodemBseverelyErroredSecondRatio
+          key: integraX.modemBseverelyErroredSecondRatio
           history: 90d
           value_type: FLOAT
           trends: 30d
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: e23b9bf5b656447595fa9dc987d53680
+        - uuid: c2fee8a715734f8b962506ff6959baa5
           name: 'Modem B temperature'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.6.0]'
-          key: integraXmodemBtemperature
+          key: integraX.modemBtemperature
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1697,44 +1653,44 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: dda2944c9dad495a959465c882d9bf39
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBtemperature)>={$TEMPMAX100}'
+            - uuid: 726f74325e2d488299f17a54752f7a79
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBtemperature)>={$TEMPMAX100}'
               name: 'Modem B temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode A'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="A"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="A"'
               tags:
                 - tag: Component
                   value: ModemB
-            - uuid: a913376f0f4e48aca8457fe667fb68e8
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBtemperature)<={$TEMPMIN}'
+            - uuid: da7130e274b04bb8a93ee008aaa0bc2f
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBtemperature)<={$TEMPMIN}'
               name: 'Modem B temperature {ITEM.LASTVALUE} too  low'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode A'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="A"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="A"'
               tags:
                 - tag: Component
                   value: ModemB
-        - uuid: 1af197b19473430ea90e2b720717ef0b
+        - uuid: 99e2216a973145ebaf2b8d283aacd88c
           name: 'Modem B severely total block number'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.18.0]'
-          key: integraXmodemBtotalBlockNumber
+          key: integraX.modemBtotalBlockNumber
           history: 90d
           value_type: FLOAT
           trends: 30d
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 71e7f59adc7e4b3e8f5165c1ac62c76e
+        - uuid: c7372da9f5aa4a1ea88fcbc6f0d4c5cc
           name: 'Modem B current Tx capacity'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.10.0]'
-          key: integraXmodemBtxCapacity
+          key: integraX.modemBtxCapacity
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1747,24 +1703,26 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: cdc4ce8162d9496785f61ce38c4ebc47
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBtxCapacity,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBtxCapacity,#2))=1'
-              name: 'Modem B Tx Capacity changed to {ITEM.LASTVALUE}'
+            - uuid: 59861f3fdcce44bfa60c0ca16058e25f
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBtxCapacity)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBtxCapacity,#2)'
+              name: 'Modem B Tx capacity changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem B not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
+                - name: 'Modem B not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
                 - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
               tags:
                 - tag: Component
                   value: ModemB
-        - uuid: 594452f48d624387b165abe137874b7f
+        - uuid: 5cd8171b48204c45afa004d2d3340fba
           name: 'Modem B actual Tx modulation Tx'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.8.0]'
-          key: integraXmodemBtxModulation
+          key: integraX.modemBtxModulation
           delay: '60'
           history: 90d
           value_type: LOG
@@ -1780,23 +1738,25 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: 81b868a0c1ec4fdfba013eaf61a7bd8f
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBtxModulation,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBtxModulation,#2))=1'
-              name: 'Modem  B  Actual Tx modulation changed to {ITEM.LASTVALUE}'
+            - uuid: bb99c383a47d4662a26e71897039d357
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBtxModulation)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBtxModulation,#2)'
+              name: 'Modem B actual Tx modulation changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem B not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
+                - name: 'Modem B not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
                 - name: 'Radio B PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
               tags:
                 - tag: Component
                   value: ModemB
-        - uuid: 4988ab5920c4473fa9b3f2b7b9998f39
+        - uuid: 134976ff375942e8a6b58349ec8aaa84
           name: 'Modem B actual numeric Tx modulation'
           type: DEPENDENT
-          key: integraXmodemBtxModulationnum
+          key: integraX.modemBtxModulationnum
           delay: '0'
           history: 90d
           units: '!QAM'
@@ -1806,15 +1766,15 @@ zabbix_export:
                 - (\d+)
                 - \1
           master_item:
-            key: integraXmodemBtxModulation
+            key: integraX.modemBtxModulation
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: 01a5ff974f23485fa965ecbb673bce03
+        - uuid: 2515560d7c414c42abf47513ca6bb586
           name: 'Modem B unavailable time'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.23.0]'
-          key: integraXmodemBunavailtime
+          key: integraX.modemBunavailtime
           history: 90d
           trends: 30d
           units: s
@@ -1822,35 +1782,37 @@ zabbix_export:
             - tag: Component
               value: '3 Modem B'
           triggers:
-            - uuid: eb2478a441ac4eb5a985ca93036b7791
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBunavailtime,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBunavailtime,#2))=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBunavailtime)<>0'
+            - uuid: 44bb411f5e0d429fbab0a2c5c1733c05
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBunavailtime)>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBunavailtime,#2)'
               name: 'Modem B unavailable time increased {ITEM.LASTVALUE}'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: ModemA
-        - uuid: a648329582914d308b3f5ea69b634596
+        - uuid: a24cdefeac624b7abbff404dcd32d3d2
           name: 'Modem B uptime'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.22.0]'
-          key: integraXmodemBuptime
+          key: integraX.modemBuptime
           history: 90d
           trends: 30d
           units: s
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: e97e529cceb845f99500f095d9192fa9
+        - uuid: 34e9933490724829b18705f02788ab99
           name: 'Modem B estimated XPD'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.2.4.0]'
-          key: integraXmodemBxpdEst
+          key: integraX.modemBxpdEst
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -1863,11 +1825,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '3 Modem B'
-        - uuid: bbf585dd5ea0418b920c114878597aaa
+        - uuid: 893bb318a8f3453eb10b504b514c18d7
           name: 'Operational mode'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.3.5.1.1.2.1]'
-          key: integraXmodemConfigRunningTable
+          key: integraX.modemConfigRunningTable
           delay: 30m
           history: 90d
           value_type: TEXT
@@ -1878,20 +1840,20 @@ zabbix_export:
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: 39ad08f6a8d748f2b834dd3bdb55d3b9
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="A"'
+            - uuid: 587cfd3f7ac84f5cb763aa549714c127
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="A"'
               name: 'Operational mode A'
-            - uuid: bca8e7d743b747b386cce13a4441717d
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="B"'
+            - uuid: 781f425833e8497cb207c3d8d9ccd11d
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="B"'
               name: 'Operational mode B'
-            - uuid: b022e0348af441e68ef6bcb51f06b308
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)<>"XPIC" or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)<>"ACAP"'
+            - uuid: b9fb7f383faf402a8f755f1609c54422
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)<>"XPIC" or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)<>"ACAP"'
               name: 'Operational mode not XPIC or ACAP'
-        - uuid: b11fbe3c6423463e80aa55c8f4cf9fe7
+        - uuid: 18b013427a364cb180e3eddfa05ac8c3
           name: 'IP address Local'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.9.1.0]'
-          key: integraXnetCfgIPaddress
+          key: integraX.netCfgIPaddress
           delay: 3h
           history: 90d
           value_type: TEXT
@@ -1899,11 +1861,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '9 System'
-        - uuid: f567cb6d80234968a646c4baf6e76735
+        - uuid: ad8688c5978d415194d7fac3544e8684
           name: 'IP Address Remote'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.9.4.0]'
-          key: integraXnetCfgRemoteIPaddress
+          key: integraX.netCfgRemoteIPaddress
           delay: 3h
           history: 90d
           value_type: TEXT
@@ -1911,11 +1873,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '9 System'
-        - uuid: 7fbcf07e52724ef597ff9a647d119b7d
+        - uuid: a03cbeb6ef014457b233f5192dfb8475
           name: 'ATPC RX (remote) max level'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.16.0]'
-          key: integraXradioAatpcRxLevelMax
+          key: integraX.radioAatpcRxLevelMax
           delay: 3h
           history: 90d
           value_type: FLOAT
@@ -1924,11 +1886,11 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '4 Radio A'
-        - uuid: 59deb2af22c844d5abe88cfd466125f1
+        - uuid: 27830280617441f68da7a550a2bbfe89
           name: 'ATPC RX (remote) min level'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.15.0]'
-          key: integraXradioAatpcRxLevelMin
+          key: integraX.radioAatpcRxLevelMin
           delay: 3h
           history: 90d
           value_type: FLOAT
@@ -1937,11 +1899,11 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '4 Radio A'
-        - uuid: eee9fcb5e62a48cda73256b19bb8e4a6
+        - uuid: fa7ccf709cd44a5abcc946fde3e58b9a
           name: 'ATPC Status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.13.0]'
-          key: integraXradioAatpcState
+          key: integraX.radioAatpcState
           delay: 3h
           history: 90d
           valuemap:
@@ -1951,11 +1913,11 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '4 Radio A'
-        - uuid: 585c2cf02c114faeb3b105c7836c00c5
+        - uuid: 6456604a59b84c33b9153a52f52adfa3
           name: 'Duplex shift RadioA'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.8.0]'
-          key: integraXradioAduplexShift
+          key: integraX.radioAduplexShift
           history: 90d
           value_type: FLOAT
           units: '!MHz'
@@ -1968,11 +1930,11 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '4 Radio A'
-        - uuid: 263b5306caa640cd8e631f2cddd94199
+        - uuid: 793924817050428fb5106a39c945435e
           name: 'PLL status RadioA'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.11.0]'
-          key: integraXradioApll
+          key: integraX.radioApll
           history: 90d
           trends: 10d
           valuemap:
@@ -1983,22 +1945,22 @@ zabbix_export:
             - tag: Component
               value: '4 Radio A'
           triggers:
-            - uuid: 2ec27d598aab484db8d516913bad0bc6
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+            - uuid: 5f21f86ab9654a44b5efe80ed88be072
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               name: 'Radio A PLL Error'
               priority: DISASTER
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode B'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="B"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="B"'
               tags:
                 - tag: Component
                   value: RadioA
-        - uuid: ef1a7bf0b53b49f89c54962e561f2e06
+        - uuid: 9d1b75d9a8584aefa811f1b43b2d675d
           name: 'Frequency Rx Radio A'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.9.0]'
-          key: integraXradioArxFrequency
+          key: integraX.radioArxFrequency
           delay: 3h
           history: 90d
           value_type: FLOAT
@@ -2012,24 +1974,26 @@ zabbix_export:
             - tag: Component
               value: '4 Radio A'
           triggers:
-            - uuid: 5156fdc0000b4a36a28ae87640e8ad51
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioArxFrequency,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioArxFrequency,#2))=1'
+            - uuid: c0d3594116ac486092ad83fcb06b8b02
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioArxFrequency)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioArxFrequency,#2)'
               name: 'Radio A Rx frequency change {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
-                - name: 'Modem A not synced'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
+                - name: 'Modem A not locked'
+                  expression: |
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+                    last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
                 - name: 'Radio A PLL Error'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
               tags:
                 - tag: Component
                   value: RadioA
-        - uuid: 79eca4284f1c4b1a95d7f9f22ba2f28e
+        - uuid: 2074f65dd104472c93c648fd8c57cbbc
           name: 'RX level RadioA'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.3.0]'
-          key: integraXradioArxLevel
+          key: integraX.radioArxLevel
           history: 90d
           value_type: FLOAT
           units: dBm
@@ -2037,33 +2001,44 @@ zabbix_export:
             - tag: Component
               value: '4 Radio A'
           triggers:
-            - uuid: 1def296c8dfe42d38e03f3a93148a3d7
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioArxLevel)<={$RXLEVMIN} or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioArxLevel)>={$RXLEVMAX})'
-              name: 'Radio A Rx level {ITEM.LASTVALUE}'
+            - uuid: f2cfa8adad4d4237a198a6c3bd315246
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioArxLevel)>={$RXLEVMAX}'
+              name: 'Radio A Rx level {ITEM.LASTVALUE} too high'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode B'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="B"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="B"'
               tags:
                 - tag: Component
                   value: RadioA
-        - uuid: e79ea34ef90d48228dd85b83c54eb368
+            - uuid: 809704e8c3744ad89f36d095fbb5d971
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioArxLevel)<={$RXLEVMIN}'
+              name: 'Radio A Rx level {ITEM.LASTVALUE} too low'
+              priority: HIGH
+              manual_close: 'YES'
+              dependencies:
+                - name: 'Operational mode B'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="B"'
+              tags:
+                - tag: Component
+                  value: RadioA
+        - uuid: 2922630f92954a4298ce6948168b4fa0
           name: 'Rx level state RadioA'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.4.0]'
-          key: integraXradioArxLevelState
+          key: integraX.radioArxLevelState
           history: 90d
           valuemap:
             name: 'SAF radio Rx level state'
           tags:
             - tag: Component
               value: '4 Radio A'
-        - uuid: 8c7e6b398d034c6eaf5024a50b366fbf
+        - uuid: 3cfb20cb6b0b4a4a9f0df4ba2576122b
           name: 'RadioA side'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.5.0]'
-          key: integraXradioAside
+          key: integraX.radioAside
           delay: 3h
           history: 90d
           valuemap:
@@ -2073,11 +2048,11 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '4 Radio A'
-        - uuid: f14d4a4c4dd44f9c982e30138bcd5417
+        - uuid: 5a3fd2bf3b53433cacaad89a23381ca2
           name: 'Frequency Tx RadioA'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.2.0]'
-          key: integraXradioAtxFrequency
+          key: integraX.radioAtxFrequency
           history: 90d
           value_type: FLOAT
           trends: 10d
@@ -2090,19 +2065,19 @@ zabbix_export:
             - tag: Component
               value: '4 Radio A'
           triggers:
-            - uuid: 61b5e0085dd548d9a81ae1050c443f30
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioAtxFrequency,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioAtxFrequency,#2))=1'
+            - uuid: e74184565dc0447d84020c447e1a10c4
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioAtxFrequency)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioAtxFrequency,#2)'
               name: 'Radio A Tx frequency change {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               tags:
                 - tag: Component
                   value: RadioA
-        - uuid: b8910284e62d4bc1816a122ecc4ac264
+        - uuid: c0888b431f274f4a895b501467cf9ff9
           name: 'RadioA Tx mute'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.6.0]'
-          key: integraXradioAtxMute
+          key: integraX.radioAtxMute
           history: 90d
           trends: 10d
           valuemap:
@@ -2110,11 +2085,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '4 Radio A'
-        - uuid: ef31be6a71b34699af6e2833b847c802
+        - uuid: 7da4854ec4724deb8ee1f4f29542d333
           name: 'RadioA Tx mute duration'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.7.0]'
-          key: integraXradioAtxMuteDuration
+          key: integraX.radioAtxMuteDuration
           history: 90d
           trends: 10d
           units: s
@@ -2123,22 +2098,22 @@ zabbix_export:
           tags:
             - tag: Component
               value: '4 Radio A'
-        - uuid: 5b6f8c18e1334b2e9618860ffbef7327
+        - uuid: 683a4360500c49f1874b8c5a48adee35
           name: 'Tx power RadioA'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.1.0]'
-          key: integraXradioAtxPower
+          key: integraX.radioAtxPower
           history: 90d
           trends: 10d
           units: dBm
           tags:
             - tag: Component
               value: '4 Radio A'
-        - uuid: fd605ec5a310410fa08d5d4c55d96262
+        - uuid: d1a578926e6f41b4b3fc8780eac5c7c2
           name: 'Duplex shift RadioB'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.8.0]'
-          key: integraXradioBduplexShift
+          key: integraX.radioBduplexShift
           delay: 3h
           history: 90d
           value_type: FLOAT
@@ -2152,11 +2127,11 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '5 Radio B'
-        - uuid: 825b8c60a492445eb1f9d58a5eb72266
+        - uuid: af2f9927e1e8486995e6730415dc76c4
           name: 'PLL status RadioB'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.11.0]'
-          key: integraXradioBpll
+          key: integraX.radioBpll
           history: 90d
           trends: 10d
           valuemap:
@@ -2167,22 +2142,22 @@ zabbix_export:
             - tag: Component
               value: '5 Radio B'
           triggers:
-            - uuid: 9228de0451d14a9aae237f36cde16e45
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+            - uuid: 33a2d01d22b9404eabc9cd94cb221572
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
               name: 'Radio B PLL Error'
               priority: DISASTER
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode A'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="A"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="A"'
               tags:
                 - tag: Component
                   value: RadioB
-        - uuid: 6c62687ff3014c78b2a227d4f683ecaf
+        - uuid: 6440930dee7d4d9b847c9969ee657c27
           name: 'Frequency Rx RadioB'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.9.0]'
-          key: integraXradioBrxFrequency
+          key: integraX.radioBrxFrequency
           history: 90d
           trends: 10d
           units: '!MHz'
@@ -2194,19 +2169,19 @@ zabbix_export:
             - tag: Component
               value: '5 Radio B'
           triggers:
-            - uuid: 05a2c84475ca476283c52ea1e7d9e54a
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBrxFrequency,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBrxFrequency,#2))=1'
+            - uuid: 9360f34341cd47f39211c29561cdd51e
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBrxFrequency)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBrxFrequency,#2)'
               name: 'Radio B Rx frequency change {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               tags:
                 - tag: Component
                   value: RadioB
-        - uuid: d7f6e863ff7e43419b6e13205d95fa4d
+        - uuid: 9d6cfe7f225c490380abd7afac125ac3
           name: 'Rx level RadioB'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.3.0]'
-          key: integraXradioBrxLevel
+          key: integraX.radioBrxLevel
           history: 90d
           value_type: FLOAT
           units: dBm
@@ -2214,33 +2189,44 @@ zabbix_export:
             - tag: Component
               value: '5 Radio B'
           triggers:
-            - uuid: cbc0c7d30db844a69739a4d132ace94e
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBrxLevel)<={$RXLEVMIN} or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBrxLevel)>={$RXLEVMAX}'
-              name: 'Radio B Rx level {ITEM.LASTVALUE}'
+            - uuid: 1e85c3095b684c3c871f349ec3428d18
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBrxLevel)>={$RXLEVMAX}'
+              name: 'Radio B Rx level {ITEM.LASTVALUE} too high'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'Operational mode A'
-                  expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="A"'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="A"'
               tags:
                 - tag: Component
                   value: RadioB
-        - uuid: d6440683d5e54dcdb80547591439e87f
+            - uuid: cdc0901cdcef4083acc82e264633debc
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBrxLevel)<={$RXLEVMIN}'
+              name: 'Radio B Rx level {ITEM.LASTVALUE} too low'
+              priority: HIGH
+              manual_close: 'YES'
+              dependencies:
+                - name: 'Operational mode A'
+                  expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="A"'
+              tags:
+                - tag: Component
+                  value: RadioB
+        - uuid: f7ef115594d047a5bcb2a7d1d0fc3e17
           name: 'Rx level state RadioB'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.4.0]'
-          key: integraXradioBrxLevelState
+          key: integraX.radioBrxLevelState
           history: 90d
           valuemap:
             name: 'SAF radio Rx level state'
           tags:
             - tag: Component
               value: '5 Radio B'
-        - uuid: 7d163b791b4a4870b08c530a8eab4be3
+        - uuid: 31a2de714921402c8d5ca0fd7ac95451
           name: 'RadioB side'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.5.0]'
-          key: integraXradioBside
+          key: integraX.radioBside
           delay: 3h
           history: 90d
           valuemap:
@@ -2250,11 +2236,46 @@ zabbix_export:
               value: '1 Overall Parameters'
             - tag: Component
               value: '5 Radio B'
-        - uuid: 464ae8bd776c4785bcdc2b7eb0283089
+        - uuid: 989fecaccbf147bf92c52c899b8917f3
+          name: 'RadioB temperature'
+          type: SNMP_AGENT
+          snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.10.0]'
+          key: integraX.radioBtemperature
+          history: 90d
+          value_type: FLOAT
+          trends: 10d
+          units: C
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.1'
+          tags:
+            - tag: Component
+              value: '5 Radio B'
+          triggers:
+            - uuid: d2243fde4b864b80ba7752f068eae2b9
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBtemperature)>={$TEMPMAX80}'
+              name: 'Radio B temperature {ITEM.LASTVALUE} too high'
+              priority: WARNING
+              description: 'Latest value: last(/{HOST.HOST}/{ITEM.KEY}'
+              manual_close: 'YES'
+              tags:
+                - tag: Component
+                  value: RadioB
+            - uuid: cd4d5c7e28a148e0923561e9f2e09dae
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBtemperature)<={$TEMPMIN}'
+              name: 'Radio B temperature {ITEM.LASTVALUE} too low'
+              priority: WARNING
+              description: 'Latest value: last(/{HOST.HOST}/{ITEM.KEY}'
+              manual_close: 'YES'
+              tags:
+                - tag: Component
+                  value: RadioB
+        - uuid: fe57faa231054c15a08ede9a0b761db7
           name: 'Frequency Tx RadioB'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.2.0]'
-          key: integraXradioBtxFrequency
+          key: integraX.radioBtxFrequency
           history: 90d
           trends: 10d
           units: '!MHz'
@@ -2266,19 +2287,19 @@ zabbix_export:
             - tag: Component
               value: '5 Radio B'
           triggers:
-            - uuid: 0d7e67cc39b746f7b8ef7216a1339c98
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBtxFrequency,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBtxFrequency,#2))=1'
+            - uuid: 0c461c7605b3468d972560188dcf6231
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBtxFrequency)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBtxFrequency,#2)'
               name: 'Radio B Tx frequency change {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               tags:
                 - tag: Component
                   value: RadioB
-        - uuid: 4007095ce3ec46058ff2f5e22b0b5ba1
+        - uuid: 9d33bb7c9ae2493a978179f4b7a28dee
           name: 'RadioB Tx mute'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.6.0]'
-          key: integraXradioBtxMute
+          key: integraX.radioBtxMute
           history: 90d
           trends: 10d
           valuemap:
@@ -2286,11 +2307,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '5 Radio B'
-        - uuid: fb03c18727914327a7c9bbe2961a36bb
+        - uuid: 4a9eba0500c44d5b9d13238851876cc9
           name: 'RadioB Tx mute duration'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.7.0]'
-          key: integraXradioBtxMuteDuration
+          key: integraX.radioBtxMuteDuration
           history: 90d
           trends: 10d
           units: s
@@ -2299,22 +2320,22 @@ zabbix_export:
           tags:
             - tag: Component
               value: '4 Radio A'
-        - uuid: fa1f5bcc902a44ea88cccb040fa7f115
+        - uuid: 198b9ec348b149999654c68091dc3736
           name: 'Tx power RadioB'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.1.0]'
-          key: integraXradioBtxPower
+          key: integraX.radioBtxPower
           history: 90d
           trends: 10d
           units: dBm
           tags:
             - tag: Component
               value: '5 Radio B'
-        - uuid: ab3d161109e6480ba75868e22cf36b40
+        - uuid: 1558fd496ed14b5aba00e8fa1a9f018e
           name: 'System temperature'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.8.0]'
-          key: integraXsysBoardTemperature
+          key: integraX.sysBoardTemperature
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -2327,21 +2348,21 @@ zabbix_export:
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: 1b11631d0c874fc787dc2b25bc3e23b2
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysBoardTemperature)>={$TEMPMAX100}'
-              name: 'System Board Temperature {ITEM.LASTVALUE} too high'
+            - uuid: 77d8a10c91374a388ce779e97db2fbf6
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysBoardTemperature)>={$TEMPMAX100}'
+              name: 'System board temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
-            - uuid: 2e04e04c9952402e84d4ee495b8b0d81
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysBoardTemperature)<={$TEMPMIN}'
-              name: 'System Board Temperature {ITEM.LASTVALUE} too low'
+            - uuid: 4c899eb8b2894519916c2010cb42d158
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysBoardTemperature)<={$TEMPMIN}'
+              name: 'System board temperature {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: af4fc26ef35a426199ffe14d57d4eacd
+        - uuid: 5d2155899176409eb0d0ce0937ba2c26
           name: Coordinates
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.47.0]'
-          key: integraXsysCoordinates
+          key: integraX.sysCoordinates
           delay: 3h
           history: 90d
           value_type: TEXT
@@ -2349,11 +2370,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '9 System'
-        - uuid: bc64b34c90764963931c964256f51424
+        - uuid: c22ed22f19c5490d991e480e866ab6b6
           name: 'CPU Idle'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.10.0]'
-          key: integraXsysCPUidle
+          key: integraX.sysCPUidle
           history: 90d
           trends: 30d
           units: '%'
@@ -2364,11 +2385,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '7 Status'
-        - uuid: 13837e6837554b5582d978a3f24edcb3
+        - uuid: e654328da74c4d1e90bedf9862160199
           name: 'CPU temperature'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.2.0]'
-          key: integraXsysCPUtemperature
+          key: integraX.sysCPUtemperature
           history: 90d
           trends: 30d
           units: C
@@ -2380,46 +2401,55 @@ zabbix_export:
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: 70815dde69904ba9acd5ba2ea79ed597
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysCPUtemperature)>={$TEMPMAX100}'
+            - uuid: 93af58e6c9474b75b99c4d00ec3f32ff
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysCPUtemperature)>={$TEMPMAX100}'
               name: 'CPU temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
-            - uuid: 35a2e45755a340428c224f963d281a19
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysCPUtemperature)<={$TEMPMIN}'
+            - uuid: 1b4ddabc6cbf49de812fa544f4cb6944
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysCPUtemperature)<={$TEMPMIN}'
               name: 'CPU temperature {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: 1827f046c9da42dea2aec59999e02d7f
-          name: 'Product code'
-          type: DEPENDENT
-          key: integraXsysDeviceProductModel
-          delay: '0'
+        - uuid: 58d8da17754c45eeac41c3607c04ff6d
+          name: 'System data'
+          type: SNMP_AGENT
+          snmp_oid: 'get[.1.3.6.1.2.1.1.1.0]'
+          key: integraX.sysDescr.IntE3
+          delay: 2h
           history: 90d
           value_type: LOG
           trends: '0'
+          tags:
+            - tag: Component
+              value: '1 Overall Parameters'
+            - tag: Component
+              value: '9 System'
+        - uuid: a162bb2f922a400fb474d73f4839a0c9
+          name: 'Product code'
+          type: DEPENDENT
+          key: integraX.sysDeviceProductModel
+          delay: '0'
+          history: 90d
+          value_type: TEXT
+          trends: '0'
+          inventory_link: HARDWARE
           preprocessing:
             - type: REGEX
               parameters:
                 - 'P/C: ([^ ]*);'
                 - \1
           master_item:
-            key: sysDescr.IntE3
+            key: integraX.sysDescr.IntE3
           tags:
             - tag: Component
               value: '1 Overall Parameters'
             - tag: Component
               value: '9 System'
-          triggers:
-            - uuid: 558a561697a84640931fb423f2831374
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysDeviceProductModel,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysDeviceProductModel,#2))=1'
-              name: 'Product Model changed to {ITEM.LASTVALUE}'
-              priority: INFO
-              manual_close: 'YES'
-        - uuid: 3ce91c44e93048f4bb3da4ccd6d93890
+        - uuid: 249caa3b07eb46b0b27e7ed6312f00e3
           name: 'Serial Number'
           type: DEPENDENT
-          key: integraXsysDeviceSerial
+          key: integraX.sysDeviceSerial
           delay: '0'
           history: 90d
           value_type: TEXT
@@ -2432,22 +2462,16 @@ zabbix_export:
                 - 'S/N: ([^ ]*)'
                 - \1
           master_item:
-            key: sysDescr.IntE3
+            key: integraX.sysDescr.IntE3
           tags:
             - tag: Component
               value: '1 Overall Parameters'
             - tag: Component
               value: '9 System'
-          triggers:
-            - uuid: d8832cf2e2d34de3913ae79c1c2ae172
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysDeviceSerial,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysDeviceSerial,#2))=1'
-              name: 'Radio HW changed to {ITEM.LASTVALUE}'
-              priority: INFO
-              manual_close: 'YES'
-        - uuid: 0c9cf828c7a5440fa7e284cc1032ca7c
+        - uuid: 1675f9e436fc402f8ec466d9314ff37d
           name: Model
           type: DEPENDENT
-          key: integraXsysDeviceType
+          key: integraX.sysDeviceType
           delay: '0'
           history: 90d
           value_type: TEXT
@@ -2459,17 +2483,17 @@ zabbix_export:
                 - 'Prod: ([^ ]*);'
                 - \1
           master_item:
-            key: sysDescr.IntE3
+            key: integraX.sysDescr.IntE3
           tags:
             - tag: Component
               value: '1 Overall Parameters'
             - tag: Component
               value: '9 System'
-        - uuid: 2572d6dbee784dcc83922707863d525f
+        - uuid: 6fbfd6eb94be4902b235498fc7da1d5f
           name: 'Fan1 and Fan2 status'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.14.0]'
-          key: integraXsysFanError
+          key: integraX.sysFanError
           history: 90d
           trends: 30d
           valuemap:
@@ -2478,16 +2502,16 @@ zabbix_export:
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: b844d8aad407437ab71a7667b93e5a26
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysFanError)=1 or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysFanError)=2'
-              name: 'Fan alarm'
+            - uuid: e6be52d2d507405e90c11d7459614084
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysFanError)=1 or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysFanError)=2'
+              name: 'Fan failure'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: 57c41aa8113f46cea9ec6a2e127e35c1
+        - uuid: d5678314881b41a3a7575b61962d2a6a
           name: 'System Free memory'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.9.0]'
-          key: integraXsysFreeMemory
+          key: integraX.sysFreeMemory
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -2499,11 +2523,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '9 System'
-        - uuid: 3ffbdb0e0361413d9725eaf2ff81391f
+        - uuid: f9147d6958d046b6bca6fd97320466af
           name: 'License expire'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.3.0]'
-          key: integraXsysLicenseExpire
+          key: integraX.sysLicenseExpire
           delay: 3h
           history: 90d
           valuemap:
@@ -2511,11 +2535,11 @@ zabbix_export:
           tags:
             - tag: Component
               value: '9 System'
-        - uuid: 88dda313a858456f9323cc488fdac22f
+        - uuid: 93839891aefa48d88e4fe8bbe246d68e
           name: 'PSU current'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.6.0]'
-          key: integraXsysPSUcurrent
+          key: integraX.sysPSUcurrent
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -2528,21 +2552,21 @@ zabbix_export:
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: 061843ced9eb4ca2abeb496faf82b149
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysPSUcurrent)>={$PSUCURRMAX}'
+            - uuid: 15a668132837434d9972a71389e6330f
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysPSUcurrent)>={$PSUCURRMAX}'
               name: 'System PSU current {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
-            - uuid: 63515d8f0c284cbf9427cadaeae540a7
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysPSUcurrent)<={$PSUCURRMIN}'
+            - uuid: 616988b22a6944c2b6a3a561fb4de842
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysPSUcurrent)<={$PSUCURRMIN}'
               name: 'System PSU current {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: 2ef7b8d1c77647688172d38f045c2a0a
+        - uuid: 1fea4fa2eea747d5bb1a47a5ee4398f5
           name: 'PSU power'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.7.0]'
-          key: integraXsysPSUpower
+          key: integraX.sysPSUpower
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -2555,21 +2579,21 @@ zabbix_export:
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: ac8a5d221d5242e59c082b86e6813d1c
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysPSUpower)>={$PSUPOWMAX}'
+            - uuid: e213389c97134bd1a4cabbffce56022b
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysPSUpower)>={$PSUPOWMAX}'
               name: 'System PSU power {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
-            - uuid: 1acfac948e5441f488707a40156ef807
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysPSUpower)<={$PSUPOWMIN}'
+            - uuid: 3e268b7d69c9405894fa4a1ce7ac8ba9
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysPSUpower)<={$PSUPOWMIN}'
               name: 'System PSU power {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: 125a5577a97f4a0388bb2fe4272e396d
+        - uuid: a7211fc46d264770b5d911f1ee2ccdda
           name: 'PSU voltage'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.5.0]'
-          key: integraXsysPSUvoltage
+          key: integraX.sysPSUvoltage
           history: 90d
           value_type: FLOAT
           trends: 30d
@@ -2582,37 +2606,174 @@ zabbix_export:
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: c4a10df048d94b7f85b1ab626bcd8b94
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysPSUvoltage)>={$PSUVOLTMAX}'
+            - uuid: 47c5325d55d04261b7b6c6ddc63fb5fe
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysPSUvoltage)>={$PSUVOLTMAX}'
               name: 'System PSU voltage {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
-            - uuid: 690cf3fa103044f0b760614821d4ae74
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysPSUvoltage)<={$PSUVOLTMIN}'
+            - uuid: f866da00e78e4a119ba4bfcbe1a8236f
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysPSUvoltage)<={$PSUVOLTMIN}'
               name: 'System PSU voltage {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
-        - uuid: b02314c0913c4d8784331eaed383b483
+        - uuid: b2486e263da64f35b964ad9be46aaa72
+          name: 'System contact details'
+          type: SNMP_AGENT
+          snmp_oid: 'get[1.3.6.1.2.1.1.4.0]'
+          key: 'integraX.system.contact[sysContact.0]'
+          delay: 3h
+          history: 2w
+          value_type: TEXT
+          trends: '0'
+          inventory_link: CONTACT
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+        - uuid: 65599aa8506c4b80bd59c0d7ef5989dd
+          name: 'Location name'
+          type: SNMP_AGENT
+          snmp_oid: 'get[1.3.6.1.2.1.1.6.0]'
+          key: integraX.system.location
+          delay: 3h
+          history: 2w
+          value_type: TEXT
+          trends: '0'
+          inventory_link: LOCATION
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1h
+          tags:
+            - tag: Component
+              value: '1 Overall Parameters'
+            - tag: Component
+              value: '9 System'
+        - uuid: 83acf23a2e9049c58f341ebdb01e5bcb
+          name: 'System name'
+          type: SNMP_AGENT
+          snmp_oid: 'get[1.3.6.1.2.1.1.5.0]'
+          key: integraX.system.name
+          delay: 3h
+          history: 2w
+          value_type: TEXT
+          trends: '0'
+          inventory_link: NAME
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1h
+          tags:
+            - tag: Component
+              value: '1 Overall Parameters'
+            - tag: Component
+              value: '9 System'
+          triggers:
+            - uuid: 8a53c71b8ced4c90b471116b684c377d
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.system.name)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.system.name,#2)'
+              name: 'System name has changed to {ITEM.LASTVALUE}'
+              priority: INFO
+              description: 'System name has changed. Ack to close.'
+              manual_close: 'YES'
+        - uuid: 88363e28000d4a0ca495532d803a9c0b
+          name: 'System object ID'
+          type: SNMP_AGENT
+          snmp_oid: 'get[1.3.6.1.2.1.1.2.0]'
+          key: 'integraX.system.objectid[sysObjectID.0]'
+          delay: 3h
+          history: 2w
+          value_type: LOG
+          trends: '0'
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1h
+        - uuid: 765e28263cb44ff991155b002832bff7
+          name: 'System uptime'
+          type: SNMP_AGENT
+          snmp_oid: 'get[1.3.6.1.2.1.1.3.0]'
+          key: 'integraX.system.uptime[sysUpTime.0]'
+          history: 2w
+          trends: '0'
+          units: uptime
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: Component
+              value: '1 Overall Parameters'
+            - tag: Component
+              value: '9 System'
+          triggers:
+            - uuid: e7792fd2320841a99026c99a52c027f2
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.system.uptime[sysUpTime.0])<10m'
+              name: '{HOST.NAME} has been restarted (uptime < 10m)'
+              priority: INFO
+              description: 'Uptime is less than 10 minutes'
+              manual_close: 'YES'
+              dependencies:
+                - name: 'No SNMP data collection'
+                  expression: 'max(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0'
+        - uuid: 345278fd8ccf421997a63294393a92a6
           name: 'System Memory used'
           type: CALCULATED
-          key: IntegraX_System_Memory_used
+          key: integraX.System_Memory_used
           history: 90d
           value_type: FLOAT
           trends: 30d
           units: '%'
-          params: 100-last(//integraXsysFreeMemory)
+          params: 100-last(//integraX.sysFreeMemory)
           tags:
             - tag: Component
               value: '9 System'
           triggers:
-            - uuid: 9633ac3b14cc499ab406fe5f51e551a8
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/IntegraX_System_Memory_used)>95'
+            - uuid: 9607f00982a34f12b74d7b201fd79bbd
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.System_Memory_used)>90'
               recovery_mode: RECOVERY_EXPRESSION
-              recovery_expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/IntegraX_System_Memory_used)<90'
-              name: 'System Memory usage {ITEM.LASTVALUE}'
+              recovery_expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.System_Memory_used)<85'
+              name: 'System memory usage {ITEM.LASTVALUE}'
               priority: HIGH
               manual_close: 'YES'
-        - uuid: 2caf88b7194c4a9ab9b8edb12420b3b0
+        - uuid: d0a400af31dc4b1281c07482c30b95f7
+          name: 'License status'
+          type: SNMP_AGENT
+          snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.4.0]'
+          key: integraX.uintegraXsysLicenseGenStatus
+          delay: 3h
+          history: 90d
+          valuemap:
+            name: 'SAF Integra W license status'
+          tags:
+            - tag: Component
+              value: '1 Overall Parameters'
+            - tag: Component
+              value: '9 System'
+          triggers:
+            - uuid: b4737ecfd10a497d9e39dd46a99742e8
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.uintegraXsysLicenseGenStatus)=4'
+              name: 'License unlimited'
+        - uuid: e0909fa8472a4bd0b6c14938b4dd0093
+          name: 'SNMP agent availability'
+          type: INTERNAL
+          key: 'integraX.zabbix[host,snmp,available]'
+          history: 7d
+          valuemap:
+            name: zabbix.host.available
+          tags:
+            - tag: Component
+              value: '7 Status'
+          triggers:
+            - uuid: 8f842dbb624241d5ac6f6df8a75297a9
+              expression: 'max(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0'
+              name: 'No SNMP data collection'
+              opdata: 'Current state: {ITEM.LASTVALUE1}'
+              priority: DISASTER
+              description: 'SNMP is not available for polling. Please check device connectivity and SNMP settings.'
+              dependencies:
+                - name: 'Unavailable by ICMP ping'
+                  expression: 'max(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.icmpping,#3)=0'
+        - uuid: 070b870c44a24fd8b84abddf81ba5948
           name: 'RadioA temperature'
           type: SNMP_AGENT
           snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.1.10.0]'
@@ -2629,210 +2790,24 @@ zabbix_export:
             - tag: Component
               value: '4 Radio A'
           triggers:
-            - uuid: 90d8627e13e5495bbc0b13921f2da5e4
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/rintegraXradioAtemperature)>={$TEMPMAX80}'
-              name: 'Radio A Temperature {ITEM.LASTVALUE} too high'
+            - uuid: 747abe2b1d99423082a5d8bc447722f7
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/rintegraXradioAtemperature)>={$TEMPMAX80}'
+              name: 'Radio A temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               description: 'Latest value: last(/{HOST.HOST}/{ITEM.KEY}'
               manual_close: 'YES'
               tags:
                 - tag: Component
                   value: RadioA
-            - uuid: cd92b2d3c11b41e0be897c6b7d313aa6
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/rintegraXradioAtemperature)<={$TEMPMIN}'
-              name: 'Radio A Temperature {ITEM.LASTVALUE} too low'
+            - uuid: 527864a554ec43deb6ce8a7d8f697688
+              expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/rintegraXradioAtemperature)<={$TEMPMIN}'
+              name: 'Radio A temperature {ITEM.LASTVALUE} too low'
               priority: WARNING
               description: 'Latest value: last(/{HOST.HOST}/{ITEM.KEY}'
               manual_close: 'YES'
               tags:
                 - tag: Component
                   value: RadioA
-        - uuid: 67e3b4b4fbf54d9fabb587f8162d99a7
-          name: 'RadioB temperature'
-          type: SNMP_AGENT
-          snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.2.2.10.0]'
-          key: rintegraXradioBtemperature
-          history: 90d
-          value_type: FLOAT
-          trends: 10d
-          units: C
-          preprocessing:
-            - type: MULTIPLIER
-              parameters:
-                - '0.1'
-          tags:
-            - tag: Component
-              value: '5 Radio B'
-          triggers:
-            - uuid: b0724309143b483d84cbed3c8e78ab4b
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/rintegraXradioBtemperature)>={$TEMPMAX80}'
-              name: 'Radio B Temperature {ITEM.LASTVALUE} too high'
-              priority: WARNING
-              description: 'Latest value: last(/{HOST.HOST}/{ITEM.KEY}'
-              manual_close: 'YES'
-              tags:
-                - tag: Component
-                  value: RadioB
-            - uuid: aa7a696a42004e1a91fd381ed610fa69
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/rintegraXradioBtemperature)<={$TEMPMIN}'
-              name: 'Radio B Temperature {ITEM.LASTVALUE} too low'
-              priority: WARNING
-              description: 'Latest value: last(/{HOST.HOST}/{ITEM.KEY}'
-              manual_close: 'YES'
-              tags:
-                - tag: Component
-                  value: RadioB
-        - uuid: ed8f09c04d3d488ca0688e397ea87df4
-          name: 'System data'
-          type: SNMP_AGENT
-          snmp_oid: 'get[.1.3.6.1.2.1.1.1.0]'
-          key: sysDescr.IntE3
-          delay: 2h
-          history: 90d
-          value_type: LOG
-          trends: '0'
-          tags:
-            - tag: Component
-              value: '1 Overall Parameters'
-            - tag: Component
-              value: '9 System'
-        - uuid: cabd24f3752f42eea833cb26bb51c04c
-          name: 'System contact details'
-          type: SNMP_AGENT
-          snmp_oid: 'get[1.3.6.1.2.1.1.4.0]'
-          key: 'system.contact[sysContact.0]'
-          delay: 3h
-          history: 2w
-          value_type: TEXT
-          trends: '0'
-          inventory_link: CONTACT
-          preprocessing:
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 1d
-        - uuid: b7e99b8ed05f4ceaa64f5fc2e58bb347
-          name: 'Location name'
-          type: SNMP_AGENT
-          snmp_oid: 'get[1.3.6.1.2.1.1.6.0]'
-          key: system.location
-          delay: 3h
-          history: 2w
-          value_type: LOG
-          trends: '0'
-          preprocessing:
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 1h
-          tags:
-            - tag: Component
-              value: '1 Overall Parameters'
-            - tag: Component
-              value: '9 System'
-        - uuid: b737ba67747549ce84fe1043ca249607
-          name: 'System name'
-          type: SNMP_AGENT
-          snmp_oid: 'get[1.3.6.1.2.1.1.5.0]'
-          key: system.name
-          delay: 3h
-          history: 2w
-          value_type: TEXT
-          trends: '0'
-          inventory_link: NAME
-          preprocessing:
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 1h
-          tags:
-            - tag: Component
-              value: '1 Overall Parameters'
-            - tag: Component
-              value: '9 System'
-          triggers:
-            - uuid: 370120239dcd4a8bb8d71ec195af9220
-              expression: '(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/system.name,#1)<>last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/system.name,#2))=1 and length(last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/system.name))>0'
-              name: 'System name has changed to (new name: {ITEM.LASTVALUE})'
-              priority: INFO
-              description: 'System name has changed. Ack to close.'
-              manual_close: 'YES'
-        - uuid: 42f916935ffc42b381365d94e9f3ea7b
-          name: 'System object ID'
-          type: SNMP_AGENT
-          snmp_oid: 'get[1.3.6.1.2.1.1.2.0]'
-          key: 'system.objectid[sysObjectID.0]'
-          delay: 3h
-          history: 2w
-          value_type: LOG
-          trends: '0'
-          preprocessing:
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 1h
-        - uuid: 54df7f4cdd884fb0a3984c7fc3772cdf
-          name: 'System uptime'
-          type: SNMP_AGENT
-          snmp_oid: 'get[1.3.6.1.2.1.1.3.0]'
-          key: 'system.uptime[sysUpTime.0]'
-          delay: 5m
-          history: 2w
-          trends: '0'
-          units: uptime
-          preprocessing:
-            - type: MULTIPLIER
-              parameters:
-                - '0.01'
-          tags:
-            - tag: Component
-              value: '1 Overall Parameters'
-            - tag: Component
-              value: '9 System'
-          triggers:
-            - uuid: be56dcc4b78d46969fa2e0e49d98f8ce
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/system.uptime[sysUpTime.0])<10m'
-              name: '{HOST.NAME} has been restarted (uptime < 10m)'
-              priority: INFO
-              description: 'Uptime is less than 10 minutes'
-              manual_close: 'YES'
-              dependencies:
-                - name: 'No SNMP data collection'
-                  expression: 'max(/SAF BASIC Integra-X template V31 for Zabbix 7.0/zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0'
-        - uuid: 85f46f5e688a4418ac504a1aec2e117e
-          name: 'License status'
-          type: SNMP_AGENT
-          snmp_oid: 'get[.1.3.6.1.4.1.7571.100.1.1.7.10.4.4.0]'
-          key: uintegraXsysLicenseGenStatus
-          delay: 3h
-          history: 90d
-          valuemap:
-            name: 'SAF Integra W license status'
-          tags:
-            - tag: Component
-              value: '1 Overall Parameters'
-            - tag: Component
-              value: '9 System'
-          triggers:
-            - uuid: 1a446a5913cc459888137906cd098302
-              expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/uintegraXsysLicenseGenStatus)=4'
-              name: 'License unlimited'
-        - uuid: 3dbb71cbeb8840bfbcf625d5f528019a
-          name: 'SNMP agent availability'
-          type: INTERNAL
-          key: 'zabbix[host,snmp,available]'
-          history: 7d
-          valuemap:
-            name: zabbix.host.available
-          tags:
-            - tag: Component
-              value: '7 Status'
-          triggers:
-            - uuid: 5738e167bbe7441eb388c36ad17a250d
-              expression: 'max(/SAF BASIC Integra-X template V31 for Zabbix 7.0/zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0'
-              name: 'No SNMP data collection'
-              opdata: 'Current state: {ITEM.LASTVALUE1}'
-              priority: DISASTER
-              description: 'SNMP is not available for polling. Please check device connectivity and SNMP settings.'
-              dependencies:
-                - name: 'Unavailable by ICMP ping'
-                  expression: 'max(/SAF BASIC Integra-X template V31 for Zabbix 7.0/icmpping,#3)=0'
       tags:
         - tag: Equipment
           value: Integra-X
@@ -2846,8 +2821,10 @@ zabbix_export:
           value: '0.04'
         - macro: '{$ICMP_LOSS_WARN}'
           value: '20'
+          description: time
         - macro: '{$ICMP_RESPONSE_TIME_WARN}'
           value: '0.15'
+          description: time
         - macro: '{$LICRENTIME}'
           value: 15d
           description: days
@@ -2880,6 +2857,7 @@ zabbix_export:
           description: dBm
         - macro: '{$SNMP.TIMEOUT}'
           value: 3m
+          description: time
         - macro: '{$SNMP_COMMUNITY}'
           value: saf-public
         - macro: '{$TEMPMAX80}'
@@ -2898,7 +2876,7 @@ zabbix_export:
           value: '20'
           description: dB
       valuemaps:
-        - uuid: c16eb78d84e04006a0fb7e28f43f7a73
+        - uuid: ef0e904ded5a4dbbae2827120bb6794b
           name: 'SAF 3 states'
           mappings:
             - value: '1'
@@ -2907,7 +2885,7 @@ zabbix_export:
               newvalue: Disabled
             - value: '3'
               newvalue: Unknown
-        - uuid: 59e1e2c1032045dcae8051bc39eed7a3
+        - uuid: 9ff248678aba43b2853975c6782e0dbd
           name: 'SAF ACM engine status'
           mappings:
             - value: '1'
@@ -2916,7 +2894,7 @@ zabbix_export:
               newvalue: disabled
             - value: '3'
               newvalue: error
-        - uuid: 1ed7e9288318497a905cdb3a934f66cd
+        - uuid: e8819a7304a849b5a28ae5de8e01184b
           name: 'SAF ATPC 3 states'
           mappings:
             - value: '1'
@@ -2925,7 +2903,7 @@ zabbix_export:
               newvalue: 'on'
             - value: '3'
               newvalue: unknown
-        - uuid: 26ffde82913c4ac0b233ce98d3143421
+        - uuid: 28d54aede3a5498582ae51be641e1990
           name: 'SAF Ethernet port duplex'
           mappings:
             - value: '1'
@@ -2934,75 +2912,8 @@ zabbix_export:
               newvalue: Half
             - value: '3'
               newvalue: Unknown
-        - uuid: cd18409b75e44b72ad6a61c26bb8955e
-          name: 'SAF Integra W license status'
-          mappings:
-            - value: '1'
-              newvalue: Ok
-            - value: '2'
-              newvalue: Expired
-            - value: '3'
-              newvalue: Unknown
-            - value: '4'
-              newvalue: Unlimited
-        - uuid: 7cb830faa4ec4fc190d109de5849c442
-          name: 'SAF IntX fan'
-          mappings:
-            - value: '0'
-              newvalue: ok
-            - value: '1'
-              newvalue: 'Fan1 ERROR'
-            - value: '2'
-              newvalue: 'Fan2 ERROR'
-            - value: '3'
-              newvalue: unknown
-        - uuid: 1ceb766e75d64b5b93484a9312e36f3c
-          name: 'SAF Modem acquire staus'
-          mappings:
-            - value: '1'
-              newvalue: acquireInProgress
-            - value: '2'
-              newvalue: acquireLocked
-            - value: '3'
-              newvalue: acquireFailed
-        - uuid: 7ece27055b894380b37eab801f9532c1
-          name: 'SAF Radio PLL'
-          mappings:
-            - value: '1'
-              newvalue: error
-            - value: '2'
-              newvalue: ok
-        - uuid: 45a93d29e43d48659d5c11c527f9f7b8
-          name: 'SAF radio Rx level state'
-          mappings:
-            - value: '1'
-              newvalue: ok
-            - value: '2'
-              newvalue: low
-            - value: '3'
-              newvalue: high
-            - value: '4'
-              newvalue: error
-        - uuid: dfb8c501414246599609136adecd43a6
-          name: 'SAF radio side'
-          mappings:
-            - value: '1'
-              newvalue: High
-            - value: '2'
-              newvalue: Low
-            - value: '3'
-              newvalue: Error
-        - uuid: 6869bf64ba2f43c8afcbb2b08bceeffa
-          name: 'SAF radio Tx Mute'
-          mappings:
-            - value: '1'
-              newvalue: Enabled
-            - value: '2'
-              newvalue: Disabled
-            - value: '3'
-              newvalue: Error
-        - uuid: d734011f7da9448e8055b9f431996fd4
-          name: SAF_IntX_Modem_status
+        - uuid: ed60abfc5d7b4de5980a238a78cad36b
+          name: 'SAF Integra acquire statuss'
           mappings:
             - value: '1'
               newvalue: 'Acquire Locked'
@@ -3015,8 +2926,75 @@ zabbix_export:
             - value: '12'
               newvalue: 'Acquire Stopped'
             - value: '13'
-              newvalue: 'acquire SM error'
-        - uuid: 5eb3bb7a9a8149fb850ceed20304241e
+              newvalue: 'Acquire SM error'
+        - uuid: cd657cc465594734ae495557f6d555d9
+          name: 'SAF Integra W license status'
+          mappings:
+            - value: '1'
+              newvalue: Ok
+            - value: '2'
+              newvalue: Expired
+            - value: '3'
+              newvalue: Unknown
+            - value: '4'
+              newvalue: Unlimited
+        - uuid: 6450a0d003ec4d75af14d4c1e84a0fed
+          name: 'SAF IntX fan'
+          mappings:
+            - value: '0'
+              newvalue: ok
+            - value: '1'
+              newvalue: 'Fan1 ERROR'
+            - value: '2'
+              newvalue: 'Fan2 ERROR'
+            - value: '3'
+              newvalue: unknown
+        - uuid: 87ac62086fb54aedae37bfdf0ca085ac
+          name: 'SAF Modem acquire staus'
+          mappings:
+            - value: '1'
+              newvalue: acquireInProgress
+            - value: '2'
+              newvalue: acquireLocked
+            - value: '3'
+              newvalue: acquireFailed
+        - uuid: ed3a33628f9543738f2453d8c867b33b
+          name: 'SAF Radio PLL'
+          mappings:
+            - value: '1'
+              newvalue: error
+            - value: '2'
+              newvalue: ok
+        - uuid: 7ab0fff571cd4e1699006d68ef9d3ed6
+          name: 'SAF radio Rx level state'
+          mappings:
+            - value: '1'
+              newvalue: ok
+            - value: '2'
+              newvalue: low
+            - value: '3'
+              newvalue: high
+            - value: '4'
+              newvalue: error
+        - uuid: 08a61df394f045ab8af06ef230532346
+          name: 'SAF radio side'
+          mappings:
+            - value: '1'
+              newvalue: High
+            - value: '2'
+              newvalue: Low
+            - value: '3'
+              newvalue: Error
+        - uuid: c62adedfd25d48a282e4a0d818d340e2
+          name: 'SAF radio Tx Mute'
+          mappings:
+            - value: '1'
+              newvalue: Enabled
+            - value: '2'
+              newvalue: Disabled
+            - value: '3'
+              newvalue: Error
+        - uuid: 7ddab39f5cfb4fc68b812a2321ae9e40
           name: SAF_LSP
           mappings:
             - value: '1'
@@ -3031,7 +3009,7 @@ zabbix_export:
               newvalue: 'LSP advanced'
             - value: '6'
               newvalue: unknown
-        - uuid: 674a8f74b5144a57890d3c889b217a60
+        - uuid: 4b796c2586524588904b0baee0a9a8ed
           name: SAF_LSP_port_list
           mappings:
             - newvalue: LAN2
@@ -3049,7 +3027,7 @@ zabbix_export:
               newvalue: 'LAN1, LAN2, LAN3'
             - value: P
               newvalue: 'LAN1, LAN3'
-        - uuid: 0e5a9ed539b1481196b4a21ff03d09f4
+        - uuid: 7d76cb49db334b6eab06592aef12f676
           name: SAF_LSP_PORT_STATUS
           mappings:
             - value: '1'
@@ -3064,7 +3042,7 @@ zabbix_export:
               newvalue: 'backup link ready'
             - value: '6'
               newvalue: 'unknown or Advanced'
-        - uuid: cc368a560dab4793ba311a4572c10478
+        - uuid: bf329532260b45ed8cb2277fef053e5f
           name: 'SAF_ports Operational status'
           mappings:
             - value: '1'
@@ -3073,14 +3051,14 @@ zabbix_export:
               newvalue: Down
             - value: '3'
               newvalue: Unknown
-        - uuid: 332a78892d5f44c19a2aa4836c91c2cf
+        - uuid: 9d990688bbd84668b910e5aadb99f074
           name: 'Service state'
           mappings:
             - value: '0'
               newvalue: Unavailable
             - value: '1'
               newvalue: Available
-        - uuid: e707275ca085451aae81a4f2b70466fd
+        - uuid: da5e51ecbd0d47e3a5c7ecde83cae38e
           name: zabbix.host.available
           mappings:
             - value: '0'
@@ -3090,75 +3068,111 @@ zabbix_export:
             - value: '2'
               newvalue: Unknown
   triggers:
-    - uuid: cd9ae18ec2614f9da1f37d0f2c2a7b90
-      expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifLspPortStatus)=4 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifLspPortAdminState)<>1'
+    - uuid: 89366de10b9c43d8a17f2e24a0a7e8af
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifLspPortStatus)=4 and last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifLspPortAdminState)<>1'
       name: 'Backup link {HOST.PORT} activated'
       priority: INFO
       manual_close: 'YES'
-    - uuid: 653eeb8f68834b879713225e6cf25283
-      expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifLspPortStatus)=3 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifLspPortAdminState)<>1'
+    - uuid: 603a882ab9c64b3e8ab8a4340f9fd0a2
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifLspPortStatus)=3 and last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifLspPortAdminState)<>1'
       name: 'Backup port {HOST.PORT} no link'
       priority: HIGH
       manual_close: 'YES'
-    - uuid: b9c8782de9a5435cb0095e1862d20992
-      expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/uintegraXsysLicenseGenStatus)=2 or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/uintegraXsysLicenseGenStatus)=3 or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXsysLicenseExpire)<={$LICRENTIME}'
-      name: 'Licence alarm'
+    - uuid: 2913d7086ed84faeaf3b2d4c5898fb2b
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysDeviceSerial)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysDeviceSerial,#2) or (last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysDeviceType)<>last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysDeviceType,#2))'
+      recovery_mode: NONE
+      name: 'HW changed to {ITEM.LASTVALUE}'
+      priority: INFO
+      manual_close: 'YES'
+    - uuid: a80055d606e940cabfb8179df803b06e
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.uintegraXsysLicenseGenStatus)=2 or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.uintegraXsysLicenseGenStatus)=3 or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.sysLicenseExpire)<={$LICRENTIME}'
+      name: 'License expired or soon will expire {ITEM.LASTVALUE}'
       priority: HIGH
       description: 'License expires within 2 weeks or already expired'
       manual_close: 'YES'
       dependencies:
         - name: 'License unlimited'
-          expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/uintegraXsysLicenseGenStatus)=4'
-    - uuid: 079404a68f8642a98413b4a44c146514
-      expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifLspPortStatus)=2 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXifLspPortAdminState)<>1'
+          expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.uintegraXsysLicenseGenStatus)=4'
+    - uuid: f02ad161f2fc471e81d29a25eecb3331
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifLspPortStatus)=2 and last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.ifLspPortAdminState)<>1'
       name: 'LSP port {HOST.PORT} blocked by LSP'
       priority: INFO
       manual_close: 'YES'
-    - uuid: 9d2c7beb950b43f6b05e127027c27046
-      expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAxpdEst)>={$XPDESTMAX} or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAxpdEst)<={$XPDESTMIN} and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="XPIC"'
-      name: 'ModemA XPD {ITEM.LASTVALUE}'
-      priority: INFO
+    - uuid: 249c071df1de47fb9ea6674c470c87c1
+      expression: |
+        last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+        last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
+      name: 'Modem A not locked'
+      priority: DISASTER
       manual_close: 'YES'
       dependencies:
-        - name: 'Modem A not synced'
-          expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemAacquireStatus)<>2'
-        - name: 'Radio A PLL Error'
-          expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioApll)=1'
+        - name: 'Operational mode B'
+          expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="B"'
       tags:
         - tag: Component
           value: ModemA
-    - uuid: 16c2541766c5498cb02567462695f8a7
-      expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBxpdEst)>={$XPDESTMAX} or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBxpdEst)<={$XPDESTMIN} and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)="XPIC"'
+    - uuid: 4692b6079f7c4ca5bfdfcbf4aa981d39
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAxpdEst)>={$XPDESTMAX} or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAxpdEst)<={$XPDESTMIN} and last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="XPIC"'
+      name: 'Modem A XPD {ITEM.LASTVALUE}'
+      priority: INFO
+      manual_close: 'YES'
+      dependencies:
+        - name: 'Modem A not locked'
+          expression: |
+            last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireStatus)<>2 or 	
+            last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemAacquireLastStatusDetails)<>1
+        - name: 'Radio A PLL Error'
+          expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioApll)=1'
+      tags:
+        - tag: Component
+          value: ModemA
+    - uuid: 629bdae2889f448b81f9cd7510ef51af
+      expression: |
+        last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+        last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
+      name: 'Modem B not locked'
+      priority: DISASTER
+      manual_close: 'YES'
+      dependencies:
+        - name: 'Operational mode A'
+          expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="A"'
+      tags:
+        - tag: Component
+          value: ModemB
+    - uuid: fb22a9a71231475fb4aafe19e2729415
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBxpdEst)>={$XPDESTMAX} or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBxpdEst)<={$XPDESTMIN} and last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)="XPIC"'
       name: 'ModemB XPD {ITEM.LASTVALUE}'
       priority: INFO
       manual_close: 'YES'
       dependencies:
-        - name: 'Modem B not synced'
-          expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemBacquireStatus)<>2'
+        - name: 'Modem B not locked'
+          expression: |
+            last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireStatus)<>2 or 	
+            last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemBacquireLastStatusDetails)<>1
         - name: 'Radio B PLL Error'
-          expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBpll)=1'
+          expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBpll)=1'
       tags:
         - tag: Component
           value: ModemB
-    - uuid: 4e4660515670427c9a5c111f8c29c847
-      expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioAtxMute)=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioAtxMuteDuration)<>1'
+    - uuid: 43b6b65bd23348d0a56715ac273ab567
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioAtxMute)=1 and last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioAtxMuteDuration)<>1'
       name: 'Radio A Tx muted'
       priority: WARNING
       manual_close: 'YES'
       dependencies:
         - name: 'Operational mode not XPIC or ACAP'
-          expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)<>"XPIC" or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)<>"ACAP"'
+          expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)<>"XPIC" or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)<>"ACAP"'
       tags:
         - tag: Component
           value: RadioA
-    - uuid: 7a3fb5f106724b7982ed286b328ee8b4
-      expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBtxMute)=1 and last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXradioBtxMuteDuration)<>1'
+    - uuid: 34ccdf0c16994d2a805fa8b708b7dba7
+      expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBtxMute)=1 and last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.radioBtxMuteDuration)<>1'
       name: 'Radio B Tx muted'
       priority: WARNING
       manual_close: 'YES'
       dependencies:
         - name: 'Operational mode not XPIC or ACAP'
-          expression: 'last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)<>"XPIC" or last(/SAF BASIC Integra-X template V31 for Zabbix 7.0/integraXmodemConfigRunningTable)<>"ACAP"'
+          expression: 'last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)<>"XPIC" or last(/SAF BASIC Integra-X template V32 for Zabbix 7.0/integraX.modemConfigRunningTable)<>"ACAP"'
       tags:
         - tag: Component
           value: RadioB
