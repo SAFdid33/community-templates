@@ -1868,7 +1868,7 @@ zabbix_export:
                   expression: 'max(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmpping,#3)=0'
       tags:
         - tag: Equipment
-          value: Integra-E/E2
+          value: Integra-E_E2
         - tag: Vendor
           value: 'SAF tehnika'
       macros:
