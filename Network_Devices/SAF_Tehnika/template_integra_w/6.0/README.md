@@ -2,7 +2,7 @@
 
 ## Overview
 
-Official Zabbix templates for Integra-W radio.
+Official templates by SAF Tehnika for Integra-W radio.
 
  
 If you have any questions, please contact techsupport@saftehnika.com.
