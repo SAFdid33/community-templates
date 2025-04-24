@@ -2,7 +2,7 @@
 
 ## Overview
 
-SAF templates for Integra-X and Integra-X2 radio.
+Official templates by SAF Tehnika for Integra-X and Integra-X2 radio.
 
 If you have any questions, please contact techsupport@saftehnika.com.
 
