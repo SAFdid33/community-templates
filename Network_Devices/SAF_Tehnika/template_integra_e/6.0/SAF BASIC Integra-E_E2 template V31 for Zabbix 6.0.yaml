@@ -3,7 +3,7 @@ zabbix_export:
   date: '2025-04-16T14:05:40Z'
   groups:
     - uuid: a89b19a740914affaba98c7ee076a2ae
-      name: Integra-E/E2
+      name: Integra-E_E2
     - uuid: e2342a5fe1c0462fa3e76a9dff8cb85e
       name: 'SAF equipment'
   templates:
@@ -11,7 +11,7 @@ zabbix_export:
       template: 'SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0'
       name: 'SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0'
       groups:
-        - name: Integra-E/E2
+        - name: Integra-E_E2
         - name: 'SAF equipment'
       items:
         - uuid: 497af89489e84ec0adb9a1169ef12688
