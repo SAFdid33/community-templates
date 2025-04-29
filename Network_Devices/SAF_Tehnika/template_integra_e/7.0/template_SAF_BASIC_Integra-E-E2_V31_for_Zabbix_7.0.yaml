@@ -2,7 +2,7 @@ zabbix_export:
   version: '7.0'
   template_groups:
     - uuid: a89b19a740914affaba98c7ee076a2ae
-      name: Integra-E/E2
+      name: Integra-E_E2
     - uuid: e2342a5fe1c0462fa3e76a9dff8cb85e
       name: 'SAF equipment'
   templates:
@@ -10,7 +10,7 @@ zabbix_export:
       template: template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_7.0
       name: template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_7.0
       groups:
-        - name: Integra-E/E2
+        - name: Integra-E_E2
         - name: 'SAF equipment'
       items:
         - uuid: 497af89489e84ec0adb9a1169ef12688
@@ -1867,7 +1867,7 @@ zabbix_export:
                   expression: 'max(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_7.0/icmpping,#3)=0'
       tags:
         - tag: Equipment
-          value: Integra-E/E2
+          value: Integra-E_E2
         - tag: Vendor
           value: 'SAF tehnika'
       macros:

@@ -1,17 +1,17 @@
 zabbix_export:
   version: '6.0'
-  date: '2025-04-29T11:54:35Z'
+  date: '2025-04-16T14:05:40Z'
   groups:
-    - uuid: 38db424f7f334dba9568b6586d81d70b
-      name: Integra-E
+    - uuid: a89b19a740914affaba98c7ee076a2ae
+      name: Integra-E_E2
     - uuid: e2342a5fe1c0462fa3e76a9dff8cb85e
       name: 'SAF equipment'
   templates:
     - uuid: 4ead971ac8314e12a6920f8739d3104e
-      template: template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0
-      name: template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0
+      template: 'SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0'
+      name: 'SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0'
       groups:
-        - name: Integra-E
+        - name: Integra-E_E2
         - name: 'SAF equipment'
       items:
         - uuid: 497af89489e84ec0adb9a1169ef12688
@@ -26,7 +26,7 @@ zabbix_export:
               value: '5 Status'
           triggers:
             - uuid: f5998915089e4da0a32749c0cbc0ac6d
-              expression: 'max(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmpping,#3)=0'
+              expression: 'max(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmpping,#3)=0'
               name: 'Unavailable by ICMP ping'
               priority: DISASTER
               description: |
@@ -45,13 +45,13 @@ zabbix_export:
               value: '5 Status'
           triggers:
             - uuid: dcc6d38bec674b01b7e8b29fec44cceb
-              expression: 'min(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmppingloss,5m)>{$ICMP_LOSS_WARN} and min(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmppingloss,5m)<100'
+              expression: 'min(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmppingloss,5m)>{$ICMP_LOSS_WARN} and min(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmppingloss,5m)<100'
               name: 'High ICMP ping loss'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
                 - name: 'Unavailable by ICMP ping'
-                  expression: 'max(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmpping,#3)=0'
+                  expression: 'max(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmpping,#3)=0'
         - uuid: 63f7f2f3147044c98db1af99932f36bd
           name: 'ICMP Response Time'
           type: SIMPLE
@@ -64,16 +64,16 @@ zabbix_export:
               value: '5 Status'
           triggers:
             - uuid: d62d896bfe96414dbd214b8164d155fe
-              expression: 'avg(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmppingsec,5m)>{$ICMP_RESPONSE_TIME_WARN}'
+              expression: 'avg(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmppingsec,5m)>{$ICMP_RESPONSE_TIME_WARN}'
               name: 'High ICMP ping response time {ITEM.LASTVALUE}'
               opdata: 'Value: {ITEM.LASTVALUE1}'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
                 - name: 'High ICMP ping loss'
-                  expression: 'min(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmppingloss,5m)>{$ICMP_LOSS_WARN} and min(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmppingloss,5m)<100'
+                  expression: 'min(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmppingloss,5m)>{$ICMP_LOSS_WARN} and min(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmppingloss,5m)<100'
                 - name: 'Unavailable by ICMP ping'
-                  expression: 'max(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmpping,#3)=0'
+                  expression: 'max(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmpping,#3)=0'
         - uuid: cb2cde23e7b54b1693e559218cf22728
           name: Coordinates
           type: SNMP_AGENT
@@ -191,7 +191,7 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: 03d88238f8e74005b76a5fa36006d013
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.Firmware_version)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.Firmware_version,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.Firmware_version)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.Firmware_version,#2)'
               name: 'FW changed to  {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
@@ -206,7 +206,7 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: ac94da1a8c804aae8e62a4a0a6c3b65b
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifAllCoSQdroppedBytes_WAN)>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifAllCoSQdroppedBytes_WAN,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifAllCoSQdroppedBytes_WAN)>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifAllCoSQdroppedBytes_WAN,#2)'
               name: 'WAN dropped packets increased {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
@@ -278,12 +278,12 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: 91d5a3bea74c4561ac853dc394a71e40
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN1)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN1,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN1)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN1,#2)'
               name: 'LAN1 administrative status changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
             - uuid: ad04d3d5d4434ef2a70906087b39de04
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN1)=2
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN1)=2'
               name: 'LAN1 administrative status {ITEM.LASTVALUE}'
         - uuid: 4469afb855564c0b926479f3515612d0
           name: 'LAN2 Admin Status'
@@ -299,12 +299,12 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: 3f1a8a3e79e04a63838eb17b2fdcec74
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN2)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN2,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN2)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN2,#2)'
               name: 'LAN2 administrative status changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
             - uuid: 4702bbad6d754c5d81ea658e0ec8b4f4
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN2)=2
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN2)=2'
               name: 'LAN2 administrative status {ITEM.LASTVALUE}'
         - uuid: 9a504a153dc746c1bdad815f08efc828
           name: 'LAN3 Admin Status'
@@ -320,12 +320,12 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: ec04e5f9e6a1446d8a99a7a863a021fb
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN3)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN3,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN3)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN3,#2)'
               name: 'LAN3 administrative status changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
             - uuid: 9decf97a0b834f299db9e21cc8facaec
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN3)=2
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN3)=2'
               name: 'LAN3 administrative status {ITEM.LASTVALUE}'
         - uuid: 5143331b404d4ce4b4e57668406c1c98
           name: 'WAN Admin Status'
@@ -567,7 +567,7 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: c5a717625c0a41e4981462d7ebb95100
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN1_integraEifPortHighSpeed)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN1_integraEifPortHighSpeed,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN1_integraEifPortHighSpeed)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN1_integraEifPortHighSpeed,#2)'
               name: 'LAN1 Port Speed changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
@@ -588,13 +588,13 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: e397c2c948d2447a84bfeedb23dffce5
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN1_integraEifPortOperStatus)=2
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN1_integraEifPortOperStatus)=2'
               name: 'LAN1 port DOWN'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'LAN1 administrative status {ITEM.LASTVALUE}'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN1)=2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN1)=2'
         - uuid: 1790e4371edb4b43abffec64a00a8028
           name: 'LAN2 Port Duplex'
           type: SNMP_AGENT
@@ -620,7 +620,7 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: 7183840a1f4941cf9e096a3ab5880051
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN2_integraEifPortHighSpeed)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN2_integraEifPortHighSpeed,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN2_integraEifPortHighSpeed)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN2_integraEifPortHighSpeed,#2)'
               name: 'LAN2 Port Speed changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
@@ -641,13 +641,13 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: d7c16444dde443259289b332aab1999b
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN2_integraEifPortOperStatus)=2
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN2_integraEifPortOperStatus)=2'
               name: 'LAN2 port DOWN'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'LAN2 administrative status {ITEM.LASTVALUE}'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN2)=2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN2)=2'
         - uuid: bd808a4f54264a5bb5001f288b6d90ae
           name: 'LAN3 Port Duplex'
           type: SNMP_AGENT
@@ -673,7 +673,7 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: c75d571fc4a64920b119c6b9fb8183b7
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN3_integraEifPortHighSpeed)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN3_integraEifPortHighSpeed,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN3_integraEifPortHighSpeed)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN3_integraEifPortHighSpeed,#2)'
               name: 'LAN3 Port Speed changed to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
@@ -694,13 +694,13 @@ zabbix_export:
               value: '4 Ethernet'
           triggers:
             - uuid: 18c97c0d4d91407d808c582ff129e184
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.LAN3_integraEifPortOperStatus)=2
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.LAN3_integraEifPortOperStatus)=2'
               name: 'LAN3 port DOWN'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'LAN3 administrative status {ITEM.LASTVALUE}'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifPortAdminStatus_LAN3)=2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifPortAdminStatus_LAN3)=2'
         - uuid: aa24ca617c4349eeaa324f4bc22976bb
           name: 'ACMB engine status'
           type: SNMP_AGENT
@@ -728,7 +728,7 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: dbe3fa5edcba4f3f9075757eb54faccb
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
               name: 'Modem not locked'
               priority: DISASTER
               manual_close: 'YES'
@@ -743,15 +743,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: ecc314c6be3041ce9e935c13cc8990fe
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemBackgroundBlockError)>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemBackgroundBlockError) and last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemBackgroundBlockError)<>0'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemBackgroundBlockError)>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemBackgroundBlockError) and last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemBackgroundBlockError)<>0'
               name: 'Modem BBE increase {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: 4b30c6530b9e46fe82a73dcfe5c611b4
           name: 'Performance Background Block Error ratio'
           type: SNMP_AGENT
@@ -782,7 +782,7 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: 46cea4ac179e4167820ecee1edfdc1e3
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemBandwidth)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemBandwidth,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemBandwidth)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemBandwidth,#2)'
               name: 'Modem bandwidth changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
@@ -807,7 +807,7 @@ zabbix_export:
               value: '3 Radio'
           triggers:
             - uuid: eb9014bf648b416e8f9f352fe7713e12
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemCarrierOffset)>={$CARROFFSETMAX}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemCarrierOffset)>={$CARROFFSETMAX}'
               name: 'Modem carrier offset {ITEM.LASTVALUE} out of range'
               priority: WARNING
               manual_close: 'YES'
@@ -836,15 +836,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: 5638d861686c496dbfb6b25779868f4e
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemErroredSecond)>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemErroredSecond,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemErroredSecond)>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemErroredSecond,#2)'
               name: 'Modem errored seconds count increased to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: 1ecc310eb1054338b72236b38c0d1b96
           name: 'Performance Errored second ratio'
           type: SNMP_AGENT
@@ -872,15 +872,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: e8e3aa864a3742179c52c0a616d5dadf
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemFECload)>={$FECLOADMAX}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemFECload)>={$FECLOADMAX}'
               name: 'Modem FEC load {ITEM.LASTVALUE} high'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: 7e6a24532a314e3ab7ba066297fac9bd
           name: 'Max modulation configured'
           type: SNMP_AGENT
@@ -934,15 +934,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: 499a94d9def94ad9a15f8538733fb454
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemNormalizedMse)>={$MSEMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemNormalizedMse)>={$MSEMIN}'
               name: 'Modem  MSE {ITEM.LASTVALUE}'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
               tags:
                 - tag: Alarm
                   value: IntE_MSEalm
@@ -964,15 +964,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: c7d783876bfe4578ba4f0ebe7af7f8d8
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemRxCapacity)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemRxCapacity,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemRxCapacity)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemRxCapacity,#2)'
               name: 'Modem Rx capacity changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: 367e86776ecf4339aa140eabdaaa09af
           name: 'Modulation Rx actual'
           type: SNMP_AGENT
@@ -986,15 +986,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: edadb6c977f646cc90b8d7883331ccaf
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemRxModulation)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemRxModulation,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemRxModulation)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemRxModulation,#2)'
               name: 'Modem actual Rx modulation changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: 6210936219184e51a2768d4eeefc2208
           name: 'Modem Performance Severely Errored seconds'
           type: SNMP_AGENT
@@ -1011,15 +1011,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: 08b644b7b7a340c7ab5c4642d859aa78
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemSeverelyErroredSecond)>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemSeverelyErroredSecond,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemSeverelyErroredSecond)>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemSeverelyErroredSecond,#2)'
               name: 'Modem SES count increased to {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: eb6a23b28df84760b6b9d269c3648310
           name: 'Performance Severely Errored Second ratio'
           type: SNMP_AGENT
@@ -1047,12 +1047,12 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: 580f2a32f5b6465bb7d2532d6722a9cd
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemTemperature)>={$TEMPMAX100}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemTemperature)>={$TEMPMAX100}'
               name: 'Modem temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
             - uuid: 65cc5ece556d4e0798ea57b3259972e9
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemTemperature)<={$TEMPMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemTemperature)<={$TEMPMIN}'
               name: 'Modem temperature {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
@@ -1087,15 +1087,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: efee646710d74c5da154a7dbe5415c0d
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemTxCapacity)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemTxCapacity,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemTxCapacity)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemTxCapacity,#2)'
               name: 'Modem Tx capacity changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: 37b4670112b443c499dfb525871c9001
           name: 'Modulation Tx actual'
           type: SNMP_AGENT
@@ -1109,15 +1109,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: 453f2d6a20a94dc6a95901d19648a1e5
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemTxModulation)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemTxModulation,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemTxModulation)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemTxModulation,#2)'
               name: 'Modem actual Tx modulation changed to {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: 4985d0bc922d45308f63e16c6e14fb4e
           name: 'Modem Unavailable Time'
           type: SNMP_AGENT
@@ -1131,15 +1131,15 @@ zabbix_export:
               value: '2 Modem'
           triggers:
             - uuid: 4df9847012024c559b09d219d3bc95a7
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemUnavailtime)>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemUnavailtime,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemUnavailtime)>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemUnavailtime,#2)'
               name: 'Modem unavailable time increased {ITEM.LASTVALUE}'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: aa38de52ab5b4583b93bca246690e3e0
           name: 'Local IP address'
           type: SNMP_AGENT
@@ -1238,7 +1238,7 @@ zabbix_export:
               value: '3 Radio'
           triggers:
             - uuid: 86ac0e35aeec4b00af88625d6901ff59
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
               name: 'Radio PLL error'
               priority: DISASTER
               manual_close: 'YES'
@@ -1259,7 +1259,7 @@ zabbix_export:
               value: '3 Radio'
           triggers:
             - uuid: 3e2604d2cf9f4e9c92ad5a3462516f0c
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioRxFrequency)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioRxFrequency,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioRxFrequency)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioRxFrequency,#2)'
               name: 'Radio Rx frequency change {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
@@ -1276,25 +1276,25 @@ zabbix_export:
               value: '3 Radio'
           triggers:
             - uuid: 25f4765dd7974db09299fed1ea927b33
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioRxLevel)>{$RXLEVMAX}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioRxLevel)>{$RXLEVMAX}'
               name: 'Radio Rx level {ITEM.LASTVALUE} too high'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
             - uuid: b2c4cf648dc94df2a129349f56729555
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioRxLevel)<{$RXLEVMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioRxLevel)<{$RXLEVMIN}'
               name: 'Radio Rx level {ITEM.LASTVALUE} too low'
               priority: HIGH
               manual_close: 'YES'
               dependencies:
                 - name: 'Modem not locked'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.modemAcquireStatus)<>2
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.modemAcquireStatus)<>2'
                 - name: 'Radio PLL error'
-                  expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioPLL)=1
+                  expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioPLL)=1'
         - uuid: c18f7659d65748bdacc2b68c112e0c12
           name: 'Rx Level state'
           type: SNMP_AGENT
@@ -1337,12 +1337,12 @@ zabbix_export:
               value: '3 Radio'
           triggers:
             - uuid: 24f8b91fbfc44d39a45de79882ba77c5
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioTemperature)>={$TEMPMAX80}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioTemperature)>={$TEMPMAX80}'
               name: 'Radio Temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
             - uuid: 4f27001354ac4170b390f118c0ca7a97
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioTemperature)<={$TEMPMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioTemperature)<={$TEMPMIN}'
               name: 'Radio Temperature {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
@@ -1363,7 +1363,7 @@ zabbix_export:
               value: '3 Radio'
           triggers:
             - uuid: d1c0fc379ded4731aa5b0777e964053a
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioTxFrequency)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioTxFrequency,#2)'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioTxFrequency)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioTxFrequency,#2)'
               name: 'Radio Tx frequency change {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
@@ -1380,7 +1380,7 @@ zabbix_export:
               value: '3 Radio'
           triggers:
             - uuid: a135411bbfa644d3ade1bfa9963e4c7f
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioTxMute)=1 or last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.radioTxMute)=3'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioTxMute)=1 or last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.radioTxMute)=3'
               name: 'Radio Tx muted'
               priority: WARNING
               manual_close: 'YES'
@@ -1412,12 +1412,12 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: dbbb3ac914a14d53a7cd31556d013bfb
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysBoardTemperature)>={$TEMPMAX100}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysBoardTemperature)>={$TEMPMAX100}'
               name: 'System board temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
             - uuid: 72b6279a60f640529afe0693c780abc1
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysBoardTemperature)<={$TEMPMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysBoardTemperature)<={$TEMPMIN}'
               name: 'System board temperature {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
@@ -1449,7 +1449,7 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: f6f2f6154f6c4c2080590a5d6edbdd7a
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysCPUload)>80
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysCPUload)>80'
               name: 'CPU load {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
@@ -1470,12 +1470,12 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: a3656e8de125479299e2d94ce7773205
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysCPUtemperature)>={$TEMPMAX100}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysCPUtemperature)>={$TEMPMAX100}'
               name: 'CPU temperature {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
             - uuid: 097857366d034cb5b6b8167e343bd4b2
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysCPUtemperature)<={$TEMPMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysCPUtemperature)<={$TEMPMIN}'
               name: 'CPU temperature {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
@@ -1532,7 +1532,7 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: a983e732d37741babac7b0579d760edc
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysFanError)=1
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysFanError)=1'
               name: 'Fan failure'
               priority: WARNING
               manual_close: 'YES'
@@ -1581,7 +1581,7 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: 2a635b455c5e470793c7bdcedbf757bc
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysLicenseGenStatus)=4
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysLicenseGenStatus)=4'
               name: 'License unlimited'
         - uuid: e90fdc4e512f45c8a73de0a8db07465f
           name: 'PSU current'
@@ -1600,12 +1600,12 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: 73d1e5ca8d11488d80107968585e2ac4
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysPSUcurrent)>={$PSUCURRMAX}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysPSUcurrent)>={$PSUCURRMAX}'
               name: 'System PSU current {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
             - uuid: eaf2d33424744516b6b631c9ed1da787
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysPSUcurrent)<={$PSUCURRMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysPSUcurrent)<={$PSUCURRMIN}'
               name: 'System PSU current {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
@@ -1626,12 +1626,12 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: ed7077975f6a40478f53e9931db788e1
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysPSUpower)>={$PSUPOWMAX}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysPSUpower)>={$PSUPOWMAX}'
               name: 'System PSU power {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
             - uuid: ee3b8a8139ac4bf5ab01174f5be2a574
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysPSUpower)<={$PSUPOWMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysPSUpower)<={$PSUPOWMIN}'
               name: 'System PSU power {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
@@ -1652,12 +1652,12 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: b5cc80cf0a354f088caa81bfd341ff85
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysPSUvoltage)>={$PSUVOLTMAX}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysPSUvoltage)>={$PSUVOLTMAX}'
               name: 'System PSU voltage {ITEM.LASTVALUE} too high'
               priority: WARNING
               manual_close: 'YES'
             - uuid: a3879f53e09e415785026fd90fd3e64c
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysPSUvoltage)<={$PSUVOLTMIN}'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysPSUvoltage)<={$PSUVOLTMIN}'
               name: 'System PSU voltage {ITEM.LASTVALUE} too low'
               priority: WARNING
               manual_close: 'YES'
@@ -1748,7 +1748,7 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: f7a13033281f4e4b86a7f1947ae46dc4
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.system.name)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.system.name,#2) and length(last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.system.name))>0'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.system.name)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.system.name,#2) and length(last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.system.name))>0'
               name: 'System name has changed to {ITEM.LASTVALUE}'
               priority: INFO
               description: 'System name has changed. Ack to close.'
@@ -1794,14 +1794,14 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: 6e8dc843b49f44cb8ebc6f1676a1f7ba
-              expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.system.uptime[sysUpTime.0])<10m'
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.system.uptime[sysUpTime.0])<10m'
               name: '{HOST.NAME} has been restarted (uptime < 10m)'
               priority: INFO
               description: 'Uptime is less than 10 minutes'
               manual_close: 'YES'
               dependencies:
                 - name: 'No SNMP data collection'
-                  expression: 'max(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0'
+                  expression: 'max(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0'
         - uuid: 2cbfa1b432064b5bb8784312fdccca26
           name: 'System Memory used'
           type: CALCULATED
@@ -1815,9 +1815,9 @@ zabbix_export:
               value: '7 System'
           triggers:
             - uuid: 684b7472f79a4a948d08028cc3be2c6a
-              expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysUsedMemory)>90
+              expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysUsedMemory)>90'
               recovery_mode: RECOVERY_EXPRESSION
-              recovery_expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysUsedMemory)<85
+              recovery_expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysUsedMemory)<85'
               name: 'System memory usage {ITEM.LASTVALUE}'
               priority: WARNING
               manual_close: 'YES'
@@ -1857,7 +1857,7 @@ zabbix_export:
               value: '5 Status'
           triggers:
             - uuid: c35934baa7f547c584f0b6c1542f4093
-              expression: 'max(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0'
+              expression: 'max(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.zabbix[host,snmp,available],{$SNMP.TIMEOUT})=0'
               name: 'No SNMP data collection'
               opdata: 'Current state: {ITEM.LASTVALUE1}'
               priority: DISASTER
@@ -1865,7 +1865,7 @@ zabbix_export:
               manual_close: 'YES'
               dependencies:
                 - name: 'Unavailable by ICMP ping'
-                  expression: 'max(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/icmpping,#3)=0'
+                  expression: 'max(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/icmpping,#3)=0'
       tags:
         - tag: Equipment
           value: Integra-E/E2
@@ -2098,30 +2098,30 @@ zabbix_export:
               newvalue: Unknown
   triggers:
     - uuid: 97c41e758d2b4fbdaf0d74615e8fe0fa
-      expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifLspPortStatus)=4 and last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifLspPortAdminState)<>1'
+      expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifLspPortStatus)=4 and last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifLspPortAdminState)<>1'
       name: 'Backup link {HOST.PORT} activated'
       priority: INFO
       manual_close: 'YES'
     - uuid: 6d216894010b4d7eba5a72e76662c7d4
-      expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifLspPortStatus)=3 and last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifLspPortAdminState)<>1'
+      expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifLspPortStatus)=3 and last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifLspPortAdminState)<>1'
       name: 'Backup port {HOST.PORT} no link'
       priority: HIGH
       manual_close: 'YES'
     - uuid: f83d1860f8034dc6ae30b56d0a3ee3ed
-      expression: '(last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysDeviceSerial)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysDeviceSerial,#2)) or (last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysDeviceProductModel)<>last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysDeviceProductModel,#2))'
+      expression: '(last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysDeviceSerial)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysDeviceSerial,#2)) or (last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysDeviceProductModel)<>last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysDeviceProductModel,#2))'
       recovery_mode: NONE
       name: 'HW changed to {ITEM.LASTVALUE}'
       priority: INFO
       manual_close: 'YES'
     - uuid: 3bd7db978daf4dc3a1dd2093ce4b88d6
-      expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysLicenseExpire)<={$LICRENTIME} or last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysLicenseGenStatus)=2 or last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysLicenseGenStatus)=3'
+      expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysLicenseExpire)<={$LICRENTIME} or last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysLicenseGenStatus)=2 or last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysLicenseGenStatus)=3'
       name: 'License expired or soon will expire {ITEM.LASTVALUE}'
       priority: HIGH
       dependencies:
         - name: 'License unlimited'
-          expression: last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.sysLicenseGenStatus)=4
+          expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.sysLicenseGenStatus)=4'
     - uuid: 84514b0cd1634907a6bed21cd795cbdb
-      expression: 'last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifLspPortStatus)=2 and last(/template_SAF_BASIC_Integra-E-E2_V31_for_Zabbix_6.0/integraE.ifLspPortAdminState)<>1'
+      expression: 'last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifLspPortStatus)=2 and last(/SAF BASIC Integra-E_E2 template V31 for Zabbix 6.0/integraE.ifLspPortAdminState)<>1'
       name: 'LSP port {HOST.PORT} blocked by LSP'
       priority: INFO
       manual_close: 'YES'
